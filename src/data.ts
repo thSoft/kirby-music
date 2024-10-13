@@ -1,4 +1,27 @@
-export const themes = [
+export type Theme = {
+  id: string;
+  title: string;
+};
+
+export type Section = {
+  start: number;
+  themeIds: string[];
+};
+
+export type Track = {
+  videoId: string;
+  title: string;
+  sections: Section[];
+  duration?: number;
+};
+
+export type Game = {
+  id: string;
+  title: string;
+  tracks: Track[];
+};
+
+export const themes: Theme[] = [
   { id: "road", title: "Road" },
   { id: "victory", title: "Victory" },
   { id: "adventure", title: "Adventure" },
@@ -42,17 +65,18 @@ export const colors = [
   "#000000",
 ];
 
-export const games = [
+export const games: Game[] = [
   {
+    id: "Kirby's Return to Dream Land (Deluxe)",
     title: "Kirby's Return to Dream Land (Deluxe)",
     tracks: [
       {
         videoId: "g_lQuWbLxn0",
         title: "Four Adventurers: Cookie Country",
         sections: [
-          { start: 2.9, themes: ["anticipation"] },
-          { start: 8.5, themes: ["hero"] },
-          { start: 31, themes: ["road"] },
+          { start: 2.9, themeIds: ["anticipation"] },
+          { start: 8.5, themeIds: ["hero"] },
+          { start: 31, themeIds: ["road"] },
         ],
         duration: 82.5,
       },
@@ -60,11 +84,11 @@ export const games = [
         videoId: "pwe4B0Z0aW8",
         title: "The Adventure Begins",
         sections: [
-          { start: 2.9, themes: ["adventure"] },
-          { start: 20.7, themes: ["hero"] },
-          { start: 32.4, themes: ["hero"] },
-          { start: 36.7, themes: ["adventure"] },
-          { start: 38.2, themes: ["triumph b"] },
+          { start: 2.9, themeIds: ["adventure"] },
+          { start: 20.7, themeIds: ["hero"] },
+          { start: 32.4, themeIds: ["hero"] },
+          { start: 36.7, themeIds: ["adventure"] },
+          { start: 38.2, themeIds: ["triumph b"] },
         ],
         duration: 48.5,
       },
@@ -72,8 +96,8 @@ export const games = [
         videoId: "4EITf3jgfKw",
         title: "Magolor, the Far-Flung Traveler",
         sections: [
-          { start: 0.6, themes: ["magolor"] },
-          { start: 13.5, themes: ["magolor b"] },
+          { start: 0.6, themeIds: ["magolor"] },
+          { start: 13.5, themeIds: ["magolor b"] },
         ],
         duration: 26,
       },
@@ -81,10 +105,10 @@ export const games = [
         videoId: "vRS-Fjnv_UM",
         title: "Sky Tower",
         sections: [
-          { start: 0, themes: ["star"] },
-          { start: 6, themes: ["sky"] },
-          { start: 23.9, themes: ["victory"] },
-          { start: 44.8, themes: ["road"] },
+          { start: 0, themeIds: ["star"] },
+          { start: 6, themeIds: ["sky"] },
+          { start: 23.9, themeIds: ["victory"] },
+          { start: 44.8, themeIds: ["road"] },
         ],
         duration: 50.7,
       },
@@ -92,31 +116,31 @@ export const games = [
         videoId: "y_G9sQgc7kk",
         title: "The Lor Starcutter Reborn",
         sections: [
-          { start: 0, themes: ["anticipation"] },
-          { start: 5.8, themes: ["magolor"] },
+          { start: 0, themeIds: ["anticipation"] },
+          { start: 5.8, themeIds: ["magolor"] },
         ],
       },
       {
         videoId: "b7GxDSzgeck",
         title: "Halcandra: A New Enemy",
         sections: [
-          { start: 5.7, themes: ["halcandra"] },
-          { start: 18, themes: ["road"] },
-          { start: 28.6, themes: ["halcandra b"] },
-          { start: 39.8, themes: ["road"] },
-          { start: 42.7, themes: ["magolor"] },
-          { start: 76, themes: ["hero var"] },
-          { start: 98, themes: ["magolor"] },
+          { start: 5.7, themeIds: ["halcandra"] },
+          { start: 18, themeIds: ["road"] },
+          { start: 28.6, themeIds: ["halcandra b"] },
+          { start: 39.8, themeIds: ["road"] },
+          { start: 42.7, themeIds: ["magolor"] },
+          { start: 76, themeIds: ["hero var"] },
+          { start: 98, themeIds: ["magolor"] },
         ],
       },
       {
         videoId: "sQsGBOlRKNM",
         title: "Dangerous Dinner",
         sections: [
-          { start: 0, themes: ["anticipation"] },
-          { start: 5.3, themes: ["hero"] },
-          { start: 16, themes: ["adventure"] },
-          { start: 26.7, themes: ["anticipation"] },
+          { start: 0, themeIds: ["anticipation"] },
+          { start: 5.3, themeIds: ["hero"] },
+          { start: 16, themeIds: ["adventure"] },
+          { start: 26.7, themeIds: ["anticipation"] },
         ],
         duration: 31.9,
       },
@@ -124,12 +148,12 @@ export const games = [
         videoId: "vNFs58zdW_4",
         title: "Fly, Kirby!",
         sections: [
-          { start: 5.8, themes: ["flight"] },
-          { start: 28.2, themes: ["flight"] },
-          { start: 51, themes: ["hero"] },
-          { start: 62.2, themes: ["flight"] },
-          { start: 68, themes: ["triumph"] },
-          { start: 70.8, themes: ["hero"] },
+          { start: 5.8, themeIds: ["flight"] },
+          { start: 28.2, themeIds: ["flight"] },
+          { start: 51, themeIds: ["hero"] },
+          { start: 62.2, themeIds: ["flight"] },
+          { start: 68, themeIds: ["triumph"] },
+          { start: 70.8, themeIds: ["hero"] },
         ],
         duration: 79,
       },
@@ -137,10 +161,10 @@ export const games = [
         videoId: "irOwhfBpnFU",
         title: "Limitless Power",
         sections: [
-          { start: 0.8, themes: ["crown"] },
-          { start: 23.4, themes: ["hero"] },
-          { start: 33.4, themes: ["crown"] },
-          { start: 53.3, themes: ["anticipation"] },
+          { start: 0.8, themeIds: ["crown"] },
+          { start: 23.4, themeIds: ["hero"] },
+          { start: 33.4, themeIds: ["crown"] },
+          { start: 53.3, themeIds: ["anticipation"] },
         ],
         duration: 63.3,
       },
@@ -148,9 +172,9 @@ export const games = [
         videoId: "U5Jm-diYDCw",
         title: "Road to Victory",
         sections: [
-          { start: 3.2, themes: ["road"] },
-          { start: 28.7, themes: ["victory"] },
-          { start: 54.4, themes: ["road"] },
+          { start: 3.2, themeIds: ["road"] },
+          { start: 28.7, themeIds: ["victory"] },
+          { start: 54.4, themeIds: ["road"] },
         ],
         duration: 67,
       },
