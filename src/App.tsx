@@ -46,7 +46,7 @@ function App() {
     <Container fluid>
       <Row>
         <Col md="auto">{Sidebar()}</Col>
-        <Col>{Game()}</Col>
+        <Col>{GameDetails()}</Col>
       </Row>
     </Container>
   );
@@ -92,7 +92,7 @@ function App() {
   function VideoPlayer() {
     return (
       <YouTube
-        opts={{ width: videoWidth, height: 320 }}
+        opts={{ width: videoWidth, height: videoWidth * 0.5625 }}
         onReady={(event) => setPlayer(event.target)}
         onStateChange={(event) => {
           return setPlaying(event.data == YouTube.PlayerState.PLAYING);
@@ -133,32 +133,17 @@ function App() {
       0
     );
     return (
-      <Nav.Item className="game-link" key={game.id}>
+      <Nav.Item key={game.id}>
         <Nav.Link active={isViewingGame} href={`#${game.id}`}>
           {game.title}
-          {playingGame == game && <Playing />}
-          {themeOccurrenceCount > 0 && (
-            <BadgeWrapper>
-              <OverlayTrigger
-                overlay={
-                  <Tooltip>
-                    {pluralize("occurrence", themeOccurrenceCount, true)} of the
-                    theme
-                  </Tooltip>
-                }
-              >
-                <Badge pill bg="info" style={{ fontSize: "x-small" }}>
-                  {themeOccurrenceCount}
-                </Badge>
-              </OverlayTrigger>
-            </BadgeWrapper>
-          )}
+          {playingGame == game && <PlayingBadge />}
+          {themeOccurrenceCount > 0 && CountBadge(themeOccurrenceCount)}
         </Nav.Link>
       </Nav.Item>
     );
   }
 
-  function Game() {
+  function GameDetails() {
     if (!viewingGame) return;
     const isPlayingGame = viewingGame.tracks.some(
       (track) => track.videoId == playingVideoId
@@ -174,9 +159,7 @@ function App() {
         >
           {viewingGame.title}
         </h3>
-        <Stack className="tracks" gap={1}>
-          {viewingGame.tracks.map(Track)}
-        </Stack>
+        <Stack gap={1}>{viewingGame.tracks.map(Track)}</Stack>
       </div>
     );
   }
@@ -184,7 +167,6 @@ function App() {
   function Track(track: Track) {
     return (
       <Card
-        className="track"
         key={track.videoId}
         body
         border={isPlayingTrack(track) ? "dark" : "light"}
@@ -196,7 +178,7 @@ function App() {
           }}
         >
           {track.title}
-          {isPlayingTrack(track) && <Playing />}
+          {isPlayingTrack(track) && <PlayingBadge />}
         </Card.Title>
         <Container fluid>
           <Row>
@@ -271,43 +253,6 @@ function App() {
     );
   }
 
-  function ThemeBadge({
-    theme,
-    isPlayingTheme,
-    isPlayingThemeOccurrence,
-    onClick,
-  }: {
-    theme: Theme;
-    isPlayingTheme?: boolean;
-    isPlayingThemeOccurrence?: boolean;
-    onClick?: () => void;
-  }) {
-    const themeIndex = themes.indexOf(theme);
-    const backgroundColor = colors[themeIndex];
-    const foregroundColor = invert(backgroundColor, true);
-    return (
-      <Badge
-        className="theme"
-        bg={backgroundColor}
-        style={{
-          backgroundColor: backgroundColor,
-          color: foregroundColor,
-          margin: "4px",
-          padding: "8px",
-          cursor: "pointer",
-          opacity: isPlayingTheme ? 1 : 0.6,
-          boxShadow: isPlayingThemeOccurrence ? "0px 0px 6px black" : undefined,
-          border:
-            "1px solid " +
-            (isPlayingThemeOccurrence ? "black" : backgroundColor),
-        }}
-        onClick={onClick}
-      >
-        {theme.title}
-      </Badge>
-    );
-  }
-
   async function checkPlaybackTime() {
     if (!player) return;
 
@@ -334,7 +279,60 @@ function App() {
 
 export default App;
 
-function Playing() {
+function ThemeBadge({
+  theme,
+  isPlayingTheme,
+  isPlayingThemeOccurrence,
+  onClick,
+}: {
+  theme: Theme;
+  isPlayingTheme?: boolean;
+  isPlayingThemeOccurrence?: boolean;
+  onClick?: () => void;
+}) {
+  const themeIndex = themes.indexOf(theme);
+  const backgroundColor = colors[themeIndex];
+  const foregroundColor = invert(backgroundColor, true);
+  return (
+    <Badge
+      bg={backgroundColor}
+      style={{
+        backgroundColor: backgroundColor,
+        color: foregroundColor,
+        margin: "4px",
+        padding: "8px",
+        cursor: "pointer",
+        opacity: isPlayingTheme ? 1 : 0.6,
+        boxShadow: isPlayingThemeOccurrence ? "0px 0px 6px black" : undefined,
+        border:
+          "1px solid " + (isPlayingThemeOccurrence ? "black" : backgroundColor),
+      }}
+      onClick={onClick}
+    >
+      {theme.title}
+    </Badge>
+  );
+}
+
+function CountBadge(themeOccurrenceCount: number): ReactNode {
+  return (
+    <BadgeWrapper>
+      <OverlayTrigger
+        overlay={
+          <Tooltip>
+            {pluralize("occurrence", themeOccurrenceCount, true)} of the theme
+          </Tooltip>
+        }
+      >
+        <Badge pill bg="info" style={{ fontSize: "x-small" }}>
+          {themeOccurrenceCount}
+        </Badge>
+      </OverlayTrigger>
+    </BadgeWrapper>
+  );
+}
+
+function PlayingBadge() {
   return (
     <BadgeWrapper>
       <Badge pill bg="dark" style={{ fontSize: "x-small" }}>
@@ -346,7 +344,7 @@ function Playing() {
 
 function BadgeWrapper({ children }: { children: ReactNode }) {
   return (
-    <span style={{ lineHeight: "120%", verticalAlign: "top" }}>
+    <span style={{ lineHeight: "90%", verticalAlign: "text-top" }}>
       {" "}
       {children}
     </span>
