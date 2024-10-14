@@ -38,6 +38,7 @@ export const themes: Theme[] = [
   { id: "halcandra b", title: "Halcandra B" },
   { id: "hero var", title: "Hero (var.)" },
   { id: "crown", title: "Crown" },
+  { id: "nightmare", title: "Nightmare" },
 ];
 
 export const colors = [
@@ -67,7 +68,7 @@ export const colors = [
 
 export const games: Game[] = [
   {
-    id: "Kirby's Return to Dream Land (Deluxe)",
+    id: "rtdl",
     title: "Kirby's Return to Dream Land (Deluxe)",
     tracks: [
       {
@@ -177,6 +178,17 @@ export const games: Game[] = [
           { start: 54.4, themeIds: ["road"] },
         ],
         duration: 67,
+      },
+    ],
+  },
+  {
+    id: "adv",
+    title: "Kirby's Adventure",
+    tracks: [
+      {
+        videoId: "dNZDnZQ7lWg",
+        title: "Final Battle 2",
+        sections: [{ start: 4, themeIds: ["nightmare"] }],
       },
     ],
   },

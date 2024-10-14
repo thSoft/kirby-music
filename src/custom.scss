@@ -1,0 +1,6 @@
+// Override variables before importing Bootstrap
+$card-spacer-x: 0.4em;
+$card-spacer-y: 0.4em;
+
+// Import Bootstrap's full SCSS file
+@import 'bootstrap/scss/bootstrap';

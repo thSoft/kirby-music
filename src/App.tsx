@@ -1,10 +1,25 @@
 import invert from "invert-color";
-import { useState } from "react";
+import pluralize from "pluralize";
+import { ReactNode, useState } from "react";
+import {
+  Badge,
+  Card,
+  Col,
+  Container,
+  Nav,
+  OverlayTrigger,
+  Row,
+  Stack,
+  Tooltip,
+} from "react-bootstrap";
+import { useLocation } from "react-router-dom";
 import YouTube, { YouTubePlayer } from "react-youtube";
 import { useInterval } from "usehooks-ts";
 import { colors, Game, games, Section, themes, Track } from "./data";
 
 function App() {
+  const location = useLocation();
+
   const [playingVideoId, setPlayingVideoId] = useState("");
   const [playingSectionIndex, setPlayingSectionIndex] = useState(0);
   const [playingThemeId, setPlayingThemeId] = useState("");
@@ -13,18 +28,63 @@ function App() {
 
   useInterval(async () => await checkPlaybackTime(), playing ? 100 : null);
 
-  return (
-    <>
-      {VideoPlayer()}
-      <div id="games">{games.map(Game)}</div>
-    </>
+  const viewingGame = location.hash
+    ? games.find((game) => game.id == location.hash.substring(1)) ?? games[0]
+    : games[0];
+
+  const playingGame = games.find((game) =>
+    game.tracks.some((track) => track.videoId == playingVideoId)
   );
+  const playingTrack = playingGame?.tracks.find(
+    (track) => track.videoId == playingVideoId
+  );
+  const playingTheme = themes.find((theme) => theme.id === playingThemeId);
+
+  const videoWidth = 400;
+
+  return (
+    <Container fluid>
+      <Row>
+        <Col md="auto">{Sidebar()}</Col>
+        <Col>{Game()}</Col>
+      </Row>
+    </Container>
+  );
+
+  function Sidebar() {
+    return (
+      <Nav variant="pills" style={{ position: "sticky", top: 0 }}>
+        <Stack style={{ width: videoWidth + 16 }} gap={3}>
+          <Card body>
+            <Stack direction="horizontal" gap={1}>
+              Game:
+              {playingGame ? (
+                <a href={`#${playingGame.id}`}>{playingGame.title}</a>
+              ) : (
+                <span>-</span>
+              )}
+            </Stack>
+            <Stack direction="horizontal" gap={1}>
+              Track:
+              <span>{playingTrack ? playingTrack.title : "-"}</span>
+            </Stack>
+            {VideoPlayer()}
+            <Stack direction="horizontal" gap={1}>
+              Theme:
+              <span>{playingTheme ? playingTheme.title : "-"}</span>
+            </Stack>
+          </Card>
+          <div id="game-links">{games.map(GameLink)}</div>
+        </Stack>
+      </Nav>
+    );
+  }
 
   function VideoPlayer() {
     return (
       <div id="player">
         <YouTube
-          opts={{ width: 400, height: 320 }}
+          opts={{ width: videoWidth, height: 320 }}
           onReady={(event) => setPlayer(event.target)}
           onStateChange={(event) => {
             return setPlaying(event.data == YouTube.PlayerState.PLAYING);
@@ -34,49 +94,96 @@ function App() {
     );
   }
 
-  function Game(game: Game) {
-    const isPlayingGame = game.tracks.some(
+  function GameLink(game: Game) {
+    const isViewingGame = game.id == viewingGame.id;
+    function countThemes(section: Section) {
+      return section.themeIds.reduce(
+        (sum, themeId) => sum + (themeId == playingThemeId ? 1 : 0),
+        0
+      );
+    }
+    function countSections(track: Track) {
+      return track.sections.reduce(
+        (sum, section) => sum + countThemes(section),
+        0
+      );
+    }
+    const themeOccurrenceCount = game.tracks.reduce(
+      (sum, track) => sum + countSections(track),
+      0
+    );
+    return (
+      <Nav.Item className="game-link" key={game.id}>
+        <Nav.Link active={isViewingGame} href={`#${game.id}`}>
+          {game.title}
+          {playingGame == game && <Playing />}
+          {themeOccurrenceCount > 0 && (
+            <BadgeWrapper>
+              <OverlayTrigger
+                overlay={
+                  <Tooltip>
+                    {pluralize("occurrence", themeOccurrenceCount, true)} of the
+                    theme
+                  </Tooltip>
+                }
+              >
+                <Badge pill bg="info">
+                  {themeOccurrenceCount}
+                </Badge>
+              </OverlayTrigger>
+            </BadgeWrapper>
+          )}
+        </Nav.Link>
+      </Nav.Item>
+    );
+  }
+
+  function Game() {
+    if (!viewingGame) return;
+    const isPlayingGame = viewingGame.tracks.some(
       (track) => track.videoId == playingVideoId
     );
     return (
-      <div className="game" key={game.id}>
-        <h2
+      <div className="game" key={viewingGame.id}>
+        <h3
           style={{
             color: isPlayingGame ? "black" : "gray",
           }}
         >
-          {game.title}
-        </h2>
-        <div className="tracks">{game.tracks.map(Track)}</div>
+          {viewingGame.title}
+        </h3>
+        <Stack className="tracks" gap={1}>
+          {viewingGame.tracks.map(Track)}
+        </Stack>
       </div>
     );
   }
 
   function Track(track: Track) {
     return (
-      <div className="track" key={track.videoId}>
-        <h3
+      <Card
+        className="track"
+        key={track.videoId}
+        body
+        border={isPlayingTrack(track) ? "dark" : "light"}
+      >
+        <Card.Title
           style={{
             color: isPlayingTrack(track) ? "black" : "gray",
-            marginBottom: 5,
+            display: "inline",
           }}
         >
           {track.title}
-        </h3>
-        <div
-          className="sections"
-          style={{
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "start",
-            alignItems: "start",
-          }}
-        >
-          {track.sections.map((section, sectionIndex) =>
-            Section(section, sectionIndex, track)
-          )}
-        </div>
-      </div>
+          {isPlayingTrack(track) && <Playing />}
+        </Card.Title>
+        <Container fluid>
+          <Row>
+            {track.sections.map((section, sectionIndex) =>
+              Section(section, sectionIndex, track)
+            )}
+          </Row>
+        </Container>
+      </Card>
     );
   }
 
@@ -86,26 +193,19 @@ function App() {
 
   function Section(section: Section, sectionIndex: number, track: Track) {
     return (
-      <div
-        className="section"
-        key={sectionIndex}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          flexWrap: "wrap",
-          justifyContent: "center",
-        }}
-      >
-        {section.themeIds.map((themeId, themeAppearanceIndex) =>
-          Theme(themeId, themeAppearanceIndex, section, sectionIndex, track)
-        )}
-      </div>
+      <Col xs="auto" key={sectionIndex} style={{ padding: 0 }}>
+        <Stack gap={0}>
+          {section.themeIds.map((themeId, themeOccurrenceIndex) =>
+            Theme(themeId, themeOccurrenceIndex, section, sectionIndex, track)
+          )}
+        </Stack>
+      </Col>
     );
   }
 
   function Theme(
     themeId: string,
-    themeAppearanceIndex: number,
+    themeOccurrenceIndex: number,
     section: Section,
     sectionIndex: number,
     track: Track
@@ -115,27 +215,26 @@ function App() {
     const backgroundColor = colors[themeIndex];
     const foregroundColor = invert(backgroundColor, true);
     const isPlayingTheme = playingThemeId == themeId;
-    const isPlayingThemeAppearance =
+    const isPlayingThemeOccurrence =
       isPlayingTrack(track) &&
       playingSectionIndex == sectionIndex &&
       isPlayingTheme;
     return (
-      <div
+      <Badge
         className="theme"
-        key={themeAppearanceIndex}
+        key={themeOccurrenceIndex}
+        bg={backgroundColor}
         style={{
           backgroundColor: backgroundColor,
           color: foregroundColor,
-          textAlign: "center",
-          borderRadius: "10px",
-          margin: "5px",
-          padding: "10px",
+          margin: "4px",
+          padding: "8px",
           cursor: "pointer",
           opacity: isPlayingTheme ? 1 : 0.3,
-          boxShadow: isPlayingThemeAppearance ? "0px 0px 6px black" : undefined,
+          boxShadow: isPlayingThemeOccurrence ? "0px 0px 6px black" : undefined,
           border:
             "1px solid " +
-            (isPlayingThemeAppearance ? "black" : backgroundColor),
+            (isPlayingThemeOccurrence ? "black" : backgroundColor),
         }}
         onClick={() => {
           setPlayingSectionIndex(sectionIndex);
@@ -153,7 +252,7 @@ function App() {
         }}
       >
         {theme.title}
-      </div>
+      </Badge>
     );
   }
 
@@ -183,3 +282,22 @@ function App() {
 }
 
 export default App;
+
+function Playing() {
+  return (
+    <BadgeWrapper>
+      <Badge pill bg="success" style={{ fontSize: "x-small" }}>
+        Playing
+      </Badge>
+    </BadgeWrapper>
+  );
+}
+
+function BadgeWrapper({ children }: { children: ReactNode }) {
+  return (
+    <span style={{ lineHeight: "120%", verticalAlign: "top" }}>
+      {" "}
+      {children}
+    </span>
+  );
+}

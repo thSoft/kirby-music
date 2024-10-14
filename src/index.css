@@ -1,9 +1,0 @@
-@font-face {
-  font-family: 'BPreplay';
-  src: URL('BPreplay.otf');
-}
-
-body {
-  font-family: 'BPreplay';
-  font-size: small;
-}
