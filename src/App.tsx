@@ -1,17 +1,7 @@
 import invert from "invert-color";
 import pluralize from "pluralize";
 import { ReactNode, useState } from "react";
-import {
-  Badge,
-  Card,
-  Col,
-  Container,
-  Nav,
-  OverlayTrigger,
-  Row,
-  Stack,
-  Tooltip,
-} from "react-bootstrap";
+import { Badge, Card, Col, Container, Nav, OverlayTrigger, Row, Stack, Tooltip } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import YouTube, { YouTubePlayer } from "react-youtube";
 import { useInterval } from "usehooks-ts";
@@ -32,12 +22,8 @@ function App() {
     ? games.find((game) => game.id == location.hash.substring(1)) ?? games[0]
     : games[0];
 
-  const playingGame = games.find((game) =>
-    game.tracks.some((track) => track.videoId == playingVideoId)
-  );
-  const playingTrack = playingGame?.tracks.find(
-    (track) => track.videoId == playingVideoId
-  );
+  const playingGame = games.find((game) => game.tracks.some((track) => track.videoId == playingVideoId));
+  const playingTrack = playingGame?.tracks.find((track) => track.videoId == playingVideoId);
   const playingTheme = themes.find((theme) => theme.id === playingThemeId);
 
   const videoWidth = 400;
@@ -71,11 +57,7 @@ function App() {
     return (
       <Stack direction="horizontal" gap={1}>
         Game:
-        {playingGame ? (
-          <a href={`#${playingGame.id}`}>{playingGame.title}</a>
-        ) : (
-          <span>-</span>
-        )}
+        {playingGame ? <a href={`#${playingGame.id}`}>{playingGame.title}</a> : <span>-</span>}
       </Stack>
     );
   }
@@ -105,33 +87,23 @@ function App() {
     return (
       <Stack direction="horizontal" gap={1}>
         Theme:
-        {playingTheme ? (
-          <ThemeBadge theme={playingTheme} isPlayingTheme />
-        ) : (
-          <span>-</span>
-        )}
+        {playingTheme ? <ThemeBadge theme={playingTheme} isPlayingTheme /> : <span>-</span>}
       </Stack>
     );
   }
 
   function GameLink(game: Game) {
     const isViewingGame = game.id == viewingGame.id;
+    function sum(array: number[]) {
+      return array.reduce((a, b) => a + b, 0);
+    }
     function countThemes(section: Section) {
-      return section.themeIds.reduce(
-        (sum, themeId) => sum + (themeId == playingThemeId ? 1 : 0),
-        0
-      );
+      return sum(section.themeIds.map((themeId) => (themeId == playingThemeId ? 1 : 0)));
     }
     function countSections(track: Track) {
-      return track.sections.reduce(
-        (sum, section) => sum + countThemes(section),
-        0
-      );
+      return sum(track.sections.map((section) => countThemes(section)));
     }
-    const themeOccurrenceCount = game.tracks.reduce(
-      (sum, track) => sum + countSections(track),
-      0
-    );
+    const themeOccurrenceCount = sum(game.tracks.map((track) => countSections(track)));
     return (
       <Nav.Item key={game.id}>
         <Nav.Link active={isViewingGame} href={`#${game.id}`}>
@@ -145,9 +117,7 @@ function App() {
 
   function GameDetails() {
     if (!viewingGame) return;
-    const isPlayingGame = viewingGame.tracks.some(
-      (track) => track.videoId == playingVideoId
-    );
+    const isPlayingGame = viewingGame.tracks.some((track) => track.videoId == playingVideoId);
     return (
       <div>
         <h3
@@ -166,11 +136,7 @@ function App() {
 
   function Track(track: Track) {
     return (
-      <Card
-        key={track.videoId}
-        body
-        border={isPlayingTrack(track) ? "dark" : "light"}
-      >
+      <Card key={track.videoId} body border={isPlayingTrack(track) ? "dark" : "light"}>
         <Card.Title
           style={{
             color: isPlayingTrack(track) ? "black" : "gray",
@@ -181,11 +147,7 @@ function App() {
           {isPlayingTrack(track) && <PlayingBadge />}
         </Card.Title>
         <Container fluid>
-          <Row>
-            {track.sections.map((section, sectionIndex) =>
-              Section(section, sectionIndex, track)
-            )}
-          </Row>
+          <Row>{track.sections.map((section, sectionIndex) => Section(section, sectionIndex, track))}</Row>
         </Container>
       </Card>
     );
@@ -200,13 +162,7 @@ function App() {
       <Col xs="auto" key={sectionIndex} style={{ padding: 0 }}>
         <Stack gap={0}>
           {section.themeIds.map((themeId, themeOccurrenceIndex) =>
-            ThemeOccurrence(
-              themeId,
-              themeOccurrenceIndex,
-              section,
-              sectionIndex,
-              track
-            )
+            ThemeOccurrence(themeId, themeOccurrenceIndex, section, sectionIndex, track)
           )}
         </Stack>
       </Col>
@@ -223,10 +179,7 @@ function App() {
     const theme = themes.find((theme) => theme.id === themeId);
     if (!theme) return;
     const isPlayingTheme = playingThemeId == themeId;
-    const isPlayingThemeOccurrence =
-      isPlayingTrack(track) &&
-      playingSectionIndex == sectionIndex &&
-      isPlayingTheme;
+    const isPlayingThemeOccurrence = isPlayingTrack(track) && playingSectionIndex == sectionIndex && isPlayingTheme;
     const onClick = function () {
       setPlayingSectionIndex(sectionIndex);
       setPlayingThemeId(themeId);
@@ -258,15 +211,12 @@ function App() {
 
     const currentTime = await player.getCurrentTime();
 
-    const foundTrack = games
-      .flatMap((game) => game.tracks)
-      .find((track) => track.videoId === playingVideoId);
+    const foundTrack = games.flatMap((game) => game.tracks).find((track) => track.videoId === playingVideoId);
     if (!foundTrack) return;
 
     const foundSectionIndex = foundTrack.sections.findIndex(
       (section, i, sections) =>
-        currentTime >= section.start &&
-        (i + 1 === sections.length || currentTime < sections[i + 1].start)
+        currentTime >= section.start && (i + 1 === sections.length || currentTime < sections[i + 1].start)
     );
 
     if (foundSectionIndex !== -1 && foundSectionIndex !== playingSectionIndex) {
@@ -304,8 +254,7 @@ function ThemeBadge({
         cursor: "pointer",
         opacity: isPlayingTheme ? 1 : 0.6,
         boxShadow: isPlayingThemeOccurrence ? "0px 0px 6px black" : undefined,
-        border:
-          "1px solid " + (isPlayingThemeOccurrence ? "black" : backgroundColor),
+        border: "1px solid " + (isPlayingThemeOccurrence ? "black" : backgroundColor),
       }}
       onClick={onClick}
     >
@@ -317,13 +266,7 @@ function ThemeBadge({
 function CountBadge(themeOccurrenceCount: number): ReactNode {
   return (
     <BadgeWrapper>
-      <OverlayTrigger
-        overlay={
-          <Tooltip>
-            {pluralize("occurrence", themeOccurrenceCount, true)} of the theme
-          </Tooltip>
-        }
-      >
+      <OverlayTrigger overlay={<Tooltip>{pluralize("occurrence", themeOccurrenceCount, true)} of the theme</Tooltip>}>
         <Badge pill bg="info" style={{ fontSize: "x-small" }}>
           {themeOccurrenceCount}
         </Badge>
@@ -343,10 +286,5 @@ function PlayingBadge() {
 }
 
 function BadgeWrapper({ children }: { children: ReactNode }) {
-  return (
-    <span style={{ lineHeight: "90%", verticalAlign: "text-top" }}>
-      {" "}
-      {children}
-    </span>
-  );
+  return <span style={{ lineHeight: "90%", verticalAlign: "text-top" }}> {children}</span>;
 }
