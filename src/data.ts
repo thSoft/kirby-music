@@ -27,9 +27,9 @@ export type Game = {
 export const themes: Theme[] = [
   { id: "road", title: "Road", score: "Gcd Gc/2d/2 Gcd | gfed e G2 |" },
   { id: "victory", title: "Victory", score: "z A/2B/2 cA/2B/2 c2 z e | d z B3 z" },
-  { id: "adventure", title: "Adventure", score: "cGdG ed/2c/2dG |" },
-  { id: "hero", title: "Hero" },
-  { id: "magolor", title: "Magolor" },
+  { id: "adventure", title: "Adventure", score: "cG dG ed/2c/2 dG |" },
+  { id: "hero", title: "Hero", score: "c3 G/2c/2 g2 G2 | c3 G/2c/2 g G3 |" },
+  { id: "magolor", title: "Magolor", score: "g2 g2 g>a gf | e>f ed c2 G2 | " },
   { id: "magolor b", title: "Magolor B" },
   { id: "anticipation", title: "Anticipation" },
   { id: "flight", title: "Flight" },
