@@ -1,7 +1,7 @@
 import invert from "invert-color";
 import pluralize from "pluralize";
 import { ReactElement, ReactNode, useState } from "react";
-import { Badge, Card, Col, Container, Nav, OverlayTrigger, Row, Stack, Tooltip } from "react-bootstrap";
+import { Badge, Card, Col, Container, Form, Nav, OverlayTrigger, Row, Stack, Tooltip } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import YouTube, { YouTubePlayer } from "react-youtube";
 import { useInterval } from "usehooks-ts";
@@ -16,6 +16,7 @@ function App() {
   const [playingThemeId, setPlayingThemeId] = useState("");
   const [player, setPlayer] = useState<YouTubePlayer>();
   const [playing, setPlaying] = useState<boolean>(false);
+  const [showOnlyRelated, setShowOnlyRelated] = useState<boolean>(false);
 
   useInterval(async () => await checkPlaybackTime(), playing ? 100 : null);
 
@@ -91,26 +92,39 @@ function App() {
           Theme:
           {playingTheme ? <ThemeBadge theme={playingTheme} isPlayingTheme /> : <span>-</span>}
         </Stack>
+        <Form.Check
+          id="check"
+          checked={showOnlyRelated}
+          onChange={(event) => setShowOnlyRelated(event.target.checked)}
+          label="Show only tracks containing this theme"
+        />
         {playingTheme?.score && <AbcScore abc={playingTheme?.score} width={playingInfoWidth} />}
       </Stack>
     );
   }
 
+  function sum(array: number[]) {
+    return array.reduce((a, b) => a + b, 0);
+  }
+
+  function countThemesInSection(section: Section) {
+    return sum(section.themeIds.map((themeId) => (themeId == playingThemeId ? 1 : 0)));
+  }
+
+  function countThemesInTrack(track: Track) {
+    return sum(track.sections.map((section) => countThemesInSection(section)));
+  }
+
   function GameLink(game: Game) {
     const isViewingGame = game.id == viewingGame.id;
-    function sum(array: number[]) {
-      return array.reduce((a, b) => a + b, 0);
-    }
-    function countThemes(section: Section) {
-      return sum(section.themeIds.map((themeId) => (themeId == playingThemeId ? 1 : 0)));
-    }
-    function countSections(track: Track) {
-      return sum(track.sections.map((section) => countThemes(section)));
-    }
-    const themeOccurrenceCount = sum(game.tracks.map((track) => countSections(track)));
+    const themeOccurrenceCount = sum(game.tracks.map((track) => countThemesInTrack(track)));
     return (
       <Nav.Item key={game.id}>
-        <Nav.Link active={isViewingGame} href={`#${game.id}`}>
+        <Nav.Link
+          active={isViewingGame}
+          href={`#${game.id}`}
+          style={showOnlyRelated && themeOccurrenceCount == 0 ? { color: "gray" } : {}}
+        >
           {game.title}
           {playingGame == game && <PlayingBadge />}
           {themeOccurrenceCount > 0 && CountBadge(themeOccurrenceCount)}
@@ -133,7 +147,9 @@ function App() {
         >
           {viewingGame.title}
         </h3>
-        <Stack gap={1}>{viewingGame.tracks.map(Track)}</Stack>
+        <Stack gap={1}>
+          {viewingGame.tracks.filter((track) => !showOnlyRelated || countThemesInTrack(track) > 0).map(Track)}
+        </Stack>
       </div>
     );
   }
