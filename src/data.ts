@@ -1,6 +1,7 @@
 export type Theme = {
   id: string;
   title: string;
+  score?: string;
 };
 
 export type Section = {
@@ -22,9 +23,9 @@ export type Game = {
 };
 
 export const themes: Theme[] = [
-  { id: "road", title: "Road" },
-  { id: "victory", title: "Victory" },
-  { id: "adventure", title: "Adventure" },
+  { id: "road", title: "Road", score: "Gcd Gc/2d/2 Gcd | gfed e G2 |" },
+  { id: "victory", title: "Victory", score: "z A/2B/2 cA/2B/2 c2 z e | d z B3 z" },
+  { id: "adventure", title: "Adventure", score: "cGdG ed/2c/2dG |" },
   { id: "hero", title: "Hero" },
   { id: "magolor", title: "Magolor" },
   { id: "magolor b", title: "Magolor B" },
@@ -188,7 +189,8 @@ export const games: Game[] = [
       {
         videoId: "dNZDnZQ7lWg",
         title: "Final Battle 2",
-        sections: [{ start: 4, themeIds: ["nightmare"] }],
+        sections: [{ start: 7, themeIds: ["nightmare"] }],
+        duration: 32.6,
       },
     ],
   },

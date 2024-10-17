@@ -5,6 +5,7 @@ import { Badge, Card, Col, Container, Nav, OverlayTrigger, Row, Stack, Tooltip }
 import { useLocation } from "react-router-dom";
 import YouTube, { YouTubePlayer } from "react-youtube";
 import { useInterval } from "usehooks-ts";
+import AbcScore from "./AbcScore";
 import { colors, Game, games, Section, Theme, themes, Track } from "./data";
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
   const playingTrack = playingGame?.tracks.find((track) => track.videoId == playingVideoId);
   const playingTheme = themes.find((theme) => theme.id === playingThemeId);
 
-  const videoWidth = 400;
+  const playingInfoWidth = 400;
 
   return (
     <Container fluid>
@@ -40,7 +41,7 @@ function App() {
   function Sidebar() {
     return (
       <Nav variant="pills" style={{ position: "sticky", top: 0 }}>
-        <Stack style={{ width: videoWidth + 16 }} gap={3}>
+        <Stack style={{ width: playingInfoWidth + 16 }} gap={3}>
           <Card body style={{ marginTop: "1em" }}>
             {PlayingGame()}
             {PlayingTrack()}
@@ -74,7 +75,7 @@ function App() {
   function VideoPlayer() {
     return (
       <YouTube
-        opts={{ width: videoWidth, height: videoWidth * 0.5625 }}
+        opts={{ width: playingInfoWidth, height: playingInfoWidth * 0.5625 }}
         onReady={(event) => setPlayer(event.target)}
         onStateChange={(event) => {
           return setPlaying(event.data == YouTube.PlayerState.PLAYING);
@@ -85,9 +86,12 @@ function App() {
 
   function PlayingTheme() {
     return (
-      <Stack direction="horizontal" gap={1}>
-        Theme:
-        {playingTheme ? <ThemeBadge theme={playingTheme} isPlayingTheme /> : <span>-</span>}
+      <Stack>
+        <Stack direction="horizontal" gap={1}>
+          Theme:
+          {playingTheme ? <ThemeBadge theme={playingTheme} isPlayingTheme /> : <span>-</span>}
+        </Stack>
+        {playingTheme?.score && <AbcScore abc={playingTheme?.score} width={playingInfoWidth} />}
       </Stack>
     );
   }
@@ -251,7 +255,7 @@ function ThemeBadge({
         color: foregroundColor,
         margin: "4px",
         padding: "8px",
-        cursor: "pointer",
+        cursor: onClick ? "pointer" : "default",
         opacity: isPlayingTheme ? 1 : 0.6,
         boxShadow: isPlayingThemeOccurrence ? "0px 0px 6px black" : undefined,
         border: "1px solid " + (isPlayingThemeOccurrence ? "black" : backgroundColor),
