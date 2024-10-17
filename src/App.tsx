@@ -247,7 +247,7 @@ function ThemeBadge({
   const themeIndex = themes.indexOf(theme);
   const backgroundColor = colors[themeIndex];
   const foregroundColor = invert(backgroundColor, true);
-  return (
+  const badge = (
     <Badge
       bg={backgroundColor}
       style={{
@@ -256,25 +256,44 @@ function ThemeBadge({
         margin: "4px",
         padding: "8px",
         cursor: onClick ? "pointer" : "default",
-        opacity: isPlayingTheme ? 1 : 0.6,
+        opacity: isPlayingTheme ? 1 : 0.5,
         boxShadow: isPlayingThemeOccurrence ? "0px 0px 6px black" : undefined,
-        border: "1px solid " + (isPlayingThemeOccurrence ? "black" : backgroundColor),
+        border:
+          "1px solid " +
+          (isPlayingThemeOccurrence ? "black" : isPlayingTheme && onClick ? "rgb(13, 202, 240)" : backgroundColor),
       }}
       onClick={onClick}
     >
       {theme.title}
     </Badge>
   );
+  return (
+    <TooltipWrapper
+      tooltip={
+        isPlayingThemeOccurrence
+          ? "Currently playing theme"
+          : isPlayingTheme && onClick
+          ? "Another occurrence of the currently playing theme"
+          : undefined
+      }
+    >
+      {badge}
+    </TooltipWrapper>
+  );
 }
 
-function CountBadge(themeOccurrenceCount: number): ReactNode {
+function TooltipWrapper({ children, tooltip }: { children: ReactNode; tooltip: string | undefined }) {
+  return tooltip ? <OverlayTrigger overlay={<Tooltip>{tooltip}</Tooltip>}>{children}</OverlayTrigger> : children;
+}
+
+function CountBadge(themeOccurrenceCount: number) {
   return (
     <BadgeWrapper>
-      <OverlayTrigger overlay={<Tooltip>{pluralize("occurrence", themeOccurrenceCount, true)} of the theme</Tooltip>}>
+      <TooltipWrapper tooltip={`${pluralize("occurrence", themeOccurrenceCount, true)} of the currently playing theme`}>
         <Badge pill bg="info" style={{ fontSize: "x-small" }}>
           {themeOccurrenceCount}
         </Badge>
-      </OverlayTrigger>
+      </TooltipWrapper>
     </BadgeWrapper>
   );
 }
