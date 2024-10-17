@@ -1,6 +1,6 @@
 import invert from "invert-color";
 import pluralize from "pluralize";
-import { ReactNode, useState } from "react";
+import { ReactElement, ReactNode, useState } from "react";
 import { Badge, Card, Col, Container, Nav, OverlayTrigger, Row, Stack, Tooltip } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import YouTube, { YouTubePlayer } from "react-youtube";
@@ -282,7 +282,7 @@ function ThemeBadge({
   );
 }
 
-function TooltipWrapper({ children, tooltip }: { children: ReactNode; tooltip: string | undefined }) {
+function TooltipWrapper({ children, tooltip }: { children: ReactElement; tooltip: string | undefined }) {
   return tooltip ? <OverlayTrigger overlay={<Tooltip>{tooltip}</Tooltip>}>{children}</OverlayTrigger> : children;
 }
 
