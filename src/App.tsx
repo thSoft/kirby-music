@@ -245,7 +245,7 @@ function ThemeBadge({
   onClick?: () => void;
 }) {
   const themeIndex = themes.indexOf(theme);
-  const backgroundColor = colors[themeIndex];
+  const backgroundColor = colors[themeIndex].hex();
   const foregroundColor = invert(backgroundColor, true);
   const badge = (
     <Badge
