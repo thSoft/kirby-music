@@ -11,10 +11,14 @@ export type Section = {
   themeIds: string[];
 };
 
+export type Key = { tonic: string; mode: string };
+export type KeyChange = { start: number; key: Key };
+
 export type Track = {
   videoId: string;
   title: string;
   sections: Section[];
+  keyChanges?: KeyChange[];
   duration?: number;
 };
 
@@ -59,6 +63,7 @@ export const games: Game[] = [
           { start: 8.5, themeIds: ["hero"] },
           { start: 31, themeIds: ["road"] },
         ],
+        keyChanges: [{ start: 0, key: { tonic: "F", mode: "major" } }],
         duration: 82.5,
       },
       {

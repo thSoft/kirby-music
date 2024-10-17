@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import YouTube, { YouTubePlayer } from "react-youtube";
 import { useInterval } from "usehooks-ts";
 import AbcScore from "./AbcScore";
-import { colors, Game, games, Section, Theme, themes, Track } from "./data";
+import { colors, Game, games, Key, Section, Theme, themes, Track } from "./data";
 
 function App() {
   const location = useLocation();
@@ -14,6 +14,7 @@ function App() {
   const [playingVideoId, setPlayingVideoId] = useState("");
   const [playingSectionIndex, setPlayingSectionIndex] = useState(0);
   const [playingThemeId, setPlayingThemeId] = useState("");
+  const [playingKey, setPlayingKey] = useState<Key | undefined>(undefined);
   const [player, setPlayer] = useState<YouTubePlayer>();
   const [playing, setPlaying] = useState<boolean>(false);
   const [showOnlyRelated, setShowOnlyRelated] = useState<boolean>(false);
@@ -48,6 +49,7 @@ function App() {
             {PlayingTrack()}
             {VideoPlayer()}
             {PlayingTheme()}
+            {PlayingKey()}
           </Card>
           <Stack>{games.map(GameLink)}</Stack>
         </Stack>
@@ -98,7 +100,16 @@ function App() {
           onChange={(event) => setShowOnlyRelated(event.target.checked)}
           label="Show only tracks containing this theme"
         />
-        {playingTheme?.score && <AbcScore abc={playingTheme?.score} width={playingInfoWidth} />}
+        {<AbcScore abc={playingTheme?.score || ""} width={playingInfoWidth} height={64} />}
+      </Stack>
+    );
+  }
+
+  function PlayingKey() {
+    return (
+      <Stack direction="horizontal" gap={1}>
+        Key:
+        <span>{playingKey ? `${playingKey.tonic} ${playingKey.mode}` : `-`}</span>
       </Stack>
     );
   }
@@ -243,6 +254,15 @@ function App() {
       setPlayingSectionIndex(foundSectionIndex);
       const foundSection = foundTrack.sections[foundSectionIndex];
       setPlayingThemeId(foundSection.themeIds[0]);
+    }
+
+    const foundKeyChange = foundTrack.keyChanges?.find(
+      (keyChange, i, keyChanges) =>
+        currentTime >= keyChange.start && (i + 1 === keyChanges.length || currentTime < keyChanges[i + 1].start)
+    );
+
+    if (foundKeyChange) {
+      setPlayingKey(foundKeyChange.key);
     }
   }
 }

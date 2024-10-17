@@ -1,7 +1,7 @@
 import abcjs from "abcjs";
 import { useEffect, useRef } from "react";
 
-const AbcScore = ({ abc, width }: { abc: string; width?: number }) => {
+const AbcScore = ({ abc, width, height }: { abc: string; width?: number; height?: number }) => {
   const abcContainerRef = useRef(null);
 
   useEffect(() => {
@@ -10,7 +10,7 @@ const AbcScore = ({ abc, width }: { abc: string; width?: number }) => {
     }
   }, [abc]);
 
-  return <div style={{ width: width }} ref={abcContainerRef}></div>;
+  return <div style={{ width: width, height: height }} ref={abcContainerRef}></div>;
 };
 
 export default AbcScore;
