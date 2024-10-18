@@ -34,11 +34,11 @@ export const themes: Theme[] = [
   { id: "adventure", title: "Adventure", score: "cG dG ed/2c/2 dG |" },
   { id: "hero", title: "Hero", score: "c3 G/2c/2 g2 G2 | c3 G/2c/2 g G3 |" },
   { id: "magolor", title: "Magolor", score: "g2 g2 g>a gf | e>f ed c2 G2 | " },
-  { id: "magolor b", title: "Magolor B" },
+  { id: "magolor b", title: "Magolor B", score: "A3 B/2c/2 edcB | A3 B/2c/2 dBGB | " },
   { id: "anticipation", title: "Anticipation" },
   { id: "flight", title: "Flight" },
   { id: "triumph", title: "Triumph" },
-  { id: "triumph b", title: "Triumph B" },
+  { id: "triumph b", title: "Triumph B", score: "z2 G>G c2 ce | fc'af e2 d2 |" },
   { id: "star", title: "Star" },
   { id: "sky", title: "Sky" },
   { id: "halcandra", title: "Halcandra" },
@@ -64,7 +64,7 @@ export const games: Game[] = [
           { start: 31, themeIds: ["road"] },
         ],
         keyChanges: [{ start: 0, key: { tonic: "F", mode: "major" } }],
-        duration: 82.5,
+        duration: 42.5,
       },
       {
         videoId: "pwe4B0Z0aW8",
@@ -76,7 +76,8 @@ export const games: Game[] = [
           { start: 36.7, themeIds: ["adventure"] },
           { start: 38.2, themeIds: ["triumph b"] },
         ],
-        duration: 48.5,
+        keyChanges: [{ start: 0, key: { tonic: "F", mode: "major" } }],
+        duration: 48.7,
       },
       {
         videoId: "4EITf3jgfKw",
@@ -84,6 +85,12 @@ export const games: Game[] = [
         sections: [
           { start: 0.6, themeIds: ["magolor"] },
           { start: 13.5, themeIds: ["magolor b"] },
+        ],
+        keyChanges: [
+          { start: 0, key: { tonic: "D", mode: "major" } },
+          { start: 13.5, key: { tonic: "F", mode: "major" } },
+          { start: 16.6, key: { tonic: "D", mode: "major" } },
+          { start: 19.7, key: { tonic: "F", mode: "major" } },
         ],
         duration: 26,
       },
@@ -105,6 +112,7 @@ export const games: Game[] = [
           { start: 0, themeIds: ["anticipation"] },
           { start: 5.8, themeIds: ["magolor"] },
         ],
+        keyChanges: [{ start: 0, key: { tonic: "F", mode: "major" } }],
       },
       {
         videoId: "b7GxDSzgeck",
