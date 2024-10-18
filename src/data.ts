@@ -1,5 +1,3 @@
-import distinctColors from "distinct-colors";
-
 export type Theme = {
   id: string;
   title: string;
@@ -47,8 +45,6 @@ export const themes: Theme[] = [
   { id: "crown", title: "Crown" },
   { id: "nightmare", title: "Nightmare" },
 ];
-
-export const colors = distinctColors({ count: themes.length });
 
 export const games: Game[] = [
   {

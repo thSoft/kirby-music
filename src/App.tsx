@@ -1,3 +1,4 @@
+import distinctColors from "distinct-colors";
 import invert from "invert-color";
 import pluralize from "pluralize";
 import { ReactElement, ReactNode, useState } from "react";
@@ -7,7 +8,7 @@ import YouTube, { YouTubePlayer } from "react-youtube";
 import { Key, Mode } from "tonal";
 import { useInterval } from "usehooks-ts";
 import AbcScore from "./AbcScore";
-import { colors, Game, games, KeySignature, Section, Theme, themes, Track } from "./data";
+import { Game, games, KeySignature, Section, Theme, themes, Track } from "./data";
 
 function App() {
   const location = useLocation();
@@ -279,6 +280,8 @@ function App() {
 }
 
 export default App;
+
+const colors = distinctColors({ count: themes.length });
 
 function ThemeBadge({
   theme,
