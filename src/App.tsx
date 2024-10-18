@@ -4,9 +4,10 @@ import { ReactElement, ReactNode, useState } from "react";
 import { Badge, Card, Col, Container, Form, Nav, OverlayTrigger, Row, Stack, Tooltip } from "react-bootstrap";
 import { useLocation } from "react-router-dom";
 import YouTube, { YouTubePlayer } from "react-youtube";
+import { Key, Mode } from "tonal";
 import { useInterval } from "usehooks-ts";
 import AbcScore from "./AbcScore";
-import { colors, Game, games, Key, Section, Theme, themes, Track } from "./data";
+import { colors, Game, games, KeySignature, Section, Theme, themes, Track } from "./data";
 
 function App() {
   const location = useLocation();
@@ -14,7 +15,7 @@ function App() {
   const [playingVideoId, setPlayingVideoId] = useState("");
   const [playingSectionIndex, setPlayingSectionIndex] = useState(0);
   const [playingThemeId, setPlayingThemeId] = useState("");
-  const [playingKey, setPlayingKey] = useState<Key | undefined>(undefined);
+  const [playingKey, setPlayingKey] = useState<KeySignature | undefined>(undefined);
   const [player, setPlayer] = useState<YouTubePlayer>();
   const [playing, setPlaying] = useState<boolean>(false);
   const [showOnlyRelated, setShowOnlyRelated] = useState<boolean>(false);
@@ -105,11 +106,17 @@ function App() {
     );
   }
 
+  function KeyView(key: KeySignature) {
+    const alt = Key.majorKey(Mode.relativeTonic("major", key.mode, key.tonic)).alteration;
+    const alterationText = `(${Math.abs(alt)}${alt > 0 ? "♯" : "♭"})`;
+    return `${key.tonic} ${key.mode} ${alt != 0 ? alterationText : ""}`;
+  }
+
   function PlayingKey() {
     return (
       <Stack direction="horizontal" gap={1}>
         Key:
-        <span>{playingKey ? `${playingKey.tonic} ${playingKey.mode}` : `-`}</span>
+        <span>{playingKey ? KeyView(playingKey) : `-`}</span>
       </Stack>
     );
   }

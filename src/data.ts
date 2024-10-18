@@ -11,8 +11,8 @@ export type Section = {
   themeIds: string[];
 };
 
-export type Key = { tonic: string; mode: string };
-export type KeyChange = { start: number; key: Key };
+export type KeySignature = { tonic: string; mode: string };
+export type KeyChange = { start: number; key: KeySignature };
 
 export type Track = {
   videoId: string;
