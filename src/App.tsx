@@ -20,7 +20,7 @@ function App() {
   const [playing, setPlaying] = useState<boolean>(false);
   const [showOnlyRelated, setShowOnlyRelated] = useState<boolean>(false);
 
-  useInterval(async () => await checkPlaybackTime(), playing ? 100 : null);
+  useInterval(async () => await updatePlayingInfo(), playing ? 100 : null);
 
   const viewingGame = location.hash
     ? games.find((game) => game.id == location.hash.substring(1)) ?? games[0]
@@ -218,11 +218,12 @@ function App() {
     if (!theme) return;
     const isPlayingTheme = playingThemeId == themeId;
     const isPlayingThemeOccurrence = isPlayingTrack(track) && playingSectionIndex == sectionIndex && isPlayingTheme;
-    const onClick = function () {
-      setPlayingSectionIndex(sectionIndex);
-      setPlayingThemeId(themeId);
+    const onClick = async function () {
+      updatePlayingInfoOfTrack(track, section.start, themeId);
       if (playingVideoId == track.videoId) {
-        player?.seekTo(section.start, true);
+        setPlaying(false);
+        await player?.seekTo(section.start, true);
+        setPlaying(true);
       } else {
         setPlayingVideoId(track.videoId);
         player?.loadVideoById({
@@ -244,7 +245,7 @@ function App() {
     );
   }
 
-  async function checkPlaybackTime() {
+  async function updatePlayingInfo() {
     if (!player) return;
 
     const currentTime = await player.getCurrentTime();
@@ -252,25 +253,28 @@ function App() {
     const foundTrack = games.flatMap((game) => game.tracks).find((track) => track.videoId === playingVideoId);
     if (!foundTrack) return;
 
-    const foundSectionIndex = foundTrack.sections.findIndex(
-      (section, i, sections) =>
-        currentTime >= section.start && (i + 1 === sections.length || currentTime < sections[i + 1].start)
+    updatePlayingInfoOfTrack(foundTrack, currentTime);
+  }
+
+  function updatePlayingInfoOfTrack(track: Track, time: number, themeId?: string) {
+    const foundSectionIndex = track.sections.findIndex(
+      (section, i, sections) => time >= section.start && (i + 1 === sections.length || time < sections[i + 1].start)
     );
 
-    if (foundSectionIndex !== -1 && foundSectionIndex !== playingSectionIndex) {
+    if (foundSectionIndex !== -1) {
       setPlayingSectionIndex(foundSectionIndex);
-      const foundSection = foundTrack.sections[foundSectionIndex];
-      setPlayingThemeId(foundSection.themeIds[0]);
+      const foundSection = track.sections[foundSectionIndex];
+      setPlayingThemeId(themeId || foundSection.themeIds[0]);
+    } else {
+      setPlayingThemeId("");
     }
 
-    const foundKeyChange = foundTrack.keyChanges?.find(
+    const foundKeyChange = track.keyChanges?.find(
       (keyChange, i, keyChanges) =>
-        currentTime >= keyChange.start && (i + 1 === keyChanges.length || currentTime < keyChanges[i + 1].start)
+        time >= keyChange.start && (i + 1 === keyChanges.length || time < keyChanges[i + 1].start)
     );
 
-    if (foundKeyChange) {
-      setPlayingKey(foundKeyChange.key);
-    }
+    setPlayingKey(foundKeyChange?.key);
   }
 }
 
