@@ -91,7 +91,7 @@ function App() {
   function PlayingTheme() {
     return (
       <Stack>
-        <Stack direction="horizontal" gap={1}>
+        <Stack direction="horizontal" gap={1} style={{ height: "2em" }}>
           Theme:
           {playingTheme ? <ThemeBadge theme={playingTheme} isPlayingTheme /> : <span>-</span>}
         </Stack>
