@@ -6,7 +6,7 @@ import { KeyView } from "./KeyView";
 import { SectionsView } from "./SectionsView";
 import { ThemeScore } from "./ThemeScore";
 import { TrackBrowser } from "./TrackBrowser";
-import { getAllTracksWithGame, getSectionIndex, playingInfoWidth, usePlayingInfo } from "./utils";
+import { getAllTracksWithGame, getSectionIndex, usePlayingInfo } from "./utils";
 import YouTubeVideo from "./YouTubeVideo";
 
 function App() {
@@ -15,7 +15,11 @@ function App() {
 
   const currentGameAndTrack = getCurrentGameAndTrack(currentTrackId);
   if (!currentGameAndTrack) {
-    return <TrackBrowser />;
+    return (
+      <Container fluid>
+        <TrackBrowser />
+      </Container>
+    );
   }
   const { game: currentGame, track: currentTrack } = currentGameAndTrack;
 
@@ -29,9 +33,10 @@ function App() {
 
     setCurrentKeyChange(getCurrentKeyChange(currentTrack, currentTime));
   };
+  const videoWidth = 400;
   const opts: Options = {
-    width: playingInfoWidth,
-    height: playingInfoWidth * 0.5625,
+    width: videoWidth,
+    height: videoWidth * 0.5625,
     playerVars: {
       autoplay: 1,
       start: start,
@@ -46,14 +51,25 @@ function App() {
           {currentGame.title} &gt; {currentTrack.title}&nbsp;
           <Button onClick={() => update()}>Choose another track</Button>
         </h4>
-        <Stack direction="horizontal">
-          <YouTubeVideo videoId={currentTrack?.videoId || ""} onTimeChanged={onTimeChanged} opts={opts} />
+        <Stack direction="horizontal" gap={1}>
+          <YouTubeVideo
+            videoId={currentTrack?.videoId || ""}
+            onTimeChanged={onTimeChanged}
+            opts={opts}
+            style={{ display: "inline-flex", borderRadius: "5px", overflow: "hidden" }}
+          />
           <Col>
-            <Stack>
-              <SectionsView track={currentTrack} />
-              <ThemeScore />
-              <KeyView keySignature={currentKeyChange?.key} />
-            </Stack>
+            <Card>
+              <Card.Header>
+                <SectionsView track={currentTrack} />
+              </Card.Header>
+              <Card.Body>
+                <ThemeScore />
+              </Card.Body>
+              <Card.Footer>
+                <KeyView keySignature={currentKeyChange?.key} />
+              </Card.Footer>
+            </Card>
           </Col>
         </Stack>
       </Card>

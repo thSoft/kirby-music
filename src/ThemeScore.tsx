@@ -1,13 +1,17 @@
 import AbcScore from "./AbcScore";
+import { TooltipWrapper } from "./TooltipWrapper";
 import { getTheme, usePlayingInfo } from "./utils";
 
 export function ThemeScore() {
   const { currentThemeId } = usePlayingInfo();
   const theme = getTheme(currentThemeId);
-  if (!theme) return;
+  const style = { height: 130 };
+  if (!theme) return <div style={style}></div>;
   return (
-    <div style={{ height: 128 }}>
-      <AbcScore abc={theme.score || ""} />
-    </div>
+    <TooltipWrapper tooltip="The current theme's original form notated in C major/A minor" placement="bottom-start">
+      <div style={style}>
+        <AbcScore abc={theme.score || ""} />
+      </div>
+    </TooltipWrapper>
   );
 }

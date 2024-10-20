@@ -50,5 +50,3 @@ export function usePlayingInfo() {
 function entry(key: string, value: any) {
   return value !== undefined ? { [key]: value } : {};
 }
-
-export const playingInfoWidth = 400;

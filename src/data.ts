@@ -49,7 +49,7 @@ export const themes: Theme[] = [
 
 export const games: Game[] = [
   {
-    id: "rtdl",
+    id: "Kirby's Return to Dream Land (Deluxe)",
     title: "Kirby's Return to Dream Land (Deluxe)",
     tracks: [
       {
@@ -181,7 +181,7 @@ export const games: Game[] = [
     ],
   },
   {
-    id: "adv",
+    id: "Kirby's Adventure",
     title: "Kirby's Adventure",
     tracks: [
       {

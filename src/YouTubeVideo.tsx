@@ -7,45 +7,53 @@ function YouTubeVideo({
   videoId,
   onTimeChanged,
   opts,
+  style,
 }: {
   videoId: string;
   onTimeChanged?: (currentTime: number) => void;
   opts?: Options;
+  style?: React.CSSProperties;
 }) {
   const [player, setPlayer] = useState<YouTubePlayer>();
   const [playing, setPlaying] = useState(false);
+  const start = opts?.playerVars?.start;
+  const end = opts?.playerVars?.end;
   const previousVideoId = useRef(videoId);
+  const previousStart = useRef(start);
 
   // Update the current time
   useInterval(
     async () => {
       if (player) {
         const time = await player.getCurrentTime();
-        const end = opts?.playerVars?.end;
         if (end && time >= end) {
           player.pauseVideo();
         } else {
-          if (onTimeChanged && time !== undefined) onTimeChanged(time);
+          if (onTimeChanged && time) onTimeChanged(time);
         }
       }
     },
-    player && playing && previousVideoId.current === videoId ? 50 : null
+    // Only update if playback continues
+    player && playing && previousVideoId.current === videoId && previousStart.current === start ? 50 : null
   );
 
-  // Check if the videoId has changed
+  // Check if seeked or loaded new video
   useEffect(() => {
     if (previousVideoId.current !== videoId) {
       previousVideoId.current = videoId;
     }
-  }, [videoId]);
+    if (previousStart.current !== start) {
+      previousStart.current = start;
+    }
+  }, [videoId, opts]);
 
   return (
     <YouTube
       videoId={videoId}
+      style={style}
       opts={opts}
       onReady={(event) => {
         setPlayer(event.target);
-        const start = opts?.playerVars?.start;
         if (start !== undefined) {
           setPlaying(false);
           event.target.seekTo(start, true);

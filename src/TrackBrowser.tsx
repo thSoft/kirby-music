@@ -29,13 +29,16 @@ export function TrackBrowser({ showOnlyRelated = false }: { showOnlyRelated?: bo
       </Row>
       <Row>
         <Col md={3}>
-          <Nav variant="pills">
-            <Stack>
-              {visibleGames.map((game) => (
-                <GameLink game={game} key={game.id} />
-              ))}
-            </Stack>
-          </Nav>
+          <Card color="lightgray">
+            <Card.Header style={{ textAlign: "center" }}>Index</Card.Header>
+            <Nav variant="pills">
+              <Stack>
+                {visibleGames.map((game) => (
+                  <GameLink game={game} key={game.id} />
+                ))}
+              </Stack>
+            </Nav>
+          </Card>
         </Col>
         <Col>
           {visibleGames.map((game) => (
