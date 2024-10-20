@@ -10,7 +10,7 @@ import { getAllTracksWithGame, getSectionIndex, usePlayingInfo } from "./utils";
 import YouTubeVideo from "./YouTubeVideo";
 
 function App() {
-  const { currentTrackId, currentSectionIndex, start, update } = usePlayingInfo();
+  const { currentTrackId, currentSectionIndex, currentThemeId, start, update } = usePlayingInfo();
   const [currentKeyChange, setCurrentKeyChange] = useState<KeyChange>();
 
   const currentGameAndTrack = getCurrentGameAndTrack(currentTrackId);
@@ -75,7 +75,7 @@ function App() {
           </Col>
         </Stack>
       </Card>
-      <TrackBrowser showOnlyRelated />
+      {currentThemeId && <TrackBrowser showOnlyRelated />}
     </Container>
   );
 }
