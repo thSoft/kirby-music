@@ -11,6 +11,7 @@ export function TrackBrowser({ showOnlyRelated = false }: { showOnlyRelated?: bo
     showOnlyRelated && currentTrackId && currentThemeId
       ? games.filter((game) => countRelatedTracksInGame(game, currentTrackId, currentThemeId) > 0)
       : games;
+  if (visibleGames.length == 0) return;
   return (
     <Card body style={rootCardStyle}>
       <Row>
