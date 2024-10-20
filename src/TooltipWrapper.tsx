@@ -12,7 +12,7 @@ export function TooltipWrapper({
   placement?: Placement;
 }) {
   return tooltip ? (
-    <OverlayTrigger placement={placement} overlay={<Tooltip>{tooltip}</Tooltip>}>
+    <OverlayTrigger delay={300} placement={placement} overlay={<Tooltip>{tooltip}</Tooltip>}>
       {children}
     </OverlayTrigger>
   ) : (

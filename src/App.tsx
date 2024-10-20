@@ -47,10 +47,12 @@ function App() {
   return (
     <Container fluid>
       <Card body>
-        <h4 style={{ textAlign: "center" }}>
+        <h2 style={{ textAlign: "center" }}>
           {currentGame.title} &gt; {currentTrack.title}&nbsp;
-          <Button onClick={() => update()}>Choose another track</Button>
-        </h4>
+          <Button onClick={() => update()} size="sm">
+            Open another track
+          </Button>
+        </h2>
         <Stack direction="horizontal" gap={1}>
           <YouTubeVideo
             videoId={currentTrack?.videoId || ""}

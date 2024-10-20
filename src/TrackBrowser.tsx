@@ -14,7 +14,7 @@ export function TrackBrowser({ showOnlyRelated = false }: { showOnlyRelated?: bo
   return (
     <Card body>
       <Row>
-        <h2 style={{ textAlign: "center" }}>
+        <h3 style={{ textAlign: "center" }}>
           {showOnlyRelated ? "Other tracks containing the current theme" : "All tracks"}
           <BadgeWrapper>
             <CountBadge
@@ -25,7 +25,7 @@ export function TrackBrowser({ showOnlyRelated = false }: { showOnlyRelated?: bo
               }
             />
           </BadgeWrapper>
-        </h2>
+        </h3>
       </Row>
       <Row>
         <Col md={3}>
@@ -79,7 +79,7 @@ function GameDetails({ game, showOnlyRelated }: { game: Game; showOnlyRelated: b
   return (
     <div>
       <a id={game.id} />
-      <h3
+      <h4
         style={{
           textAlign: "center",
           marginTop: "0.4em",
@@ -87,7 +87,7 @@ function GameDetails({ game, showOnlyRelated }: { game: Game; showOnlyRelated: b
       >
         <a id={game.id} />
         {game.title}
-      </h3>
+      </h4>
       <Stack gap={1}>
         {visibleTracks.map((track) => (
           <TrackView track={track} key={track.id} />
