@@ -13,6 +13,7 @@ export type KeySignature = { tonic: string; mode: string };
 export type KeyChange = { start: number; key: KeySignature };
 
 export type Track = {
+  id: string;
   videoId: string;
   title: string;
   sections: Section[];
@@ -36,12 +37,12 @@ export const themes: Theme[] = [
   { id: "anticipation", title: "Anticipation" },
   { id: "flight", title: "Flight" },
   { id: "triumph", title: "Triumph" },
-  { id: "triumph b", title: "Triumph B", score: "z2 G>G c2 ce | fc'af e2 d2 |" },
+  { id: "triumph b", title: "Return", score: "z2 G>G c2 ce | fc'af e2 d2 |" },
   { id: "star", title: "Star" },
   { id: "sky", title: "Sky" },
   { id: "halcandra", title: "Halcandra" },
   { id: "halcandra b", title: "Halcandra B" },
-  { id: "hero var", title: "Hero (var.)" },
+  { id: "halcandra c", title: "Halcandra C" },
   { id: "crown", title: "Crown" },
   { id: "nightmare", title: "Nightmare" },
 ];
@@ -52,6 +53,7 @@ export const games: Game[] = [
     title: "Kirby's Return to Dream Land (Deluxe)",
     tracks: [
       {
+        id: "Four Adventurers: Cookie Country",
         videoId: "g_lQuWbLxn0",
         title: "Four Adventurers: Cookie Country",
         sections: [
@@ -63,6 +65,7 @@ export const games: Game[] = [
         duration: 42.5,
       },
       {
+        id: "The Adventure Begins",
         videoId: "pwe4B0Z0aW8",
         title: "The Adventure Begins",
         sections: [
@@ -76,6 +79,7 @@ export const games: Game[] = [
         duration: 48.7,
       },
       {
+        id: "Magolor, the Far-Flung Traveler",
         videoId: "4EITf3jgfKw",
         title: "Magolor, the Far-Flung Traveler",
         sections: [
@@ -91,6 +95,7 @@ export const games: Game[] = [
         duration: 26,
       },
       {
+        id: "Sky Tower",
         videoId: "vRS-Fjnv_UM",
         title: "Sky Tower",
         sections: [
@@ -102,6 +107,7 @@ export const games: Game[] = [
         duration: 50.7,
       },
       {
+        id: "The Lor Starcutter Reborn",
         videoId: "y_G9sQgc7kk",
         title: "The Lor Starcutter Reborn",
         sections: [
@@ -111,19 +117,20 @@ export const games: Game[] = [
         keyChanges: [{ start: 0, key: { tonic: "F", mode: "major" } }],
       },
       {
+        id: "Halcandra: A New Enemy",
         videoId: "b7GxDSzgeck",
         title: "Halcandra: A New Enemy",
         sections: [
           { start: 5.7, themeIds: ["halcandra"] },
-          { start: 18, themeIds: ["road"] },
           { start: 28.6, themeIds: ["halcandra b"] },
-          { start: 39.8, themeIds: ["road"] },
+          { start: 39.8, themeIds: ["adventure"] },
           { start: 42.7, themeIds: ["magolor"] },
-          { start: 76, themeIds: ["hero var"] },
+          { start: 76, themeIds: ["halcandra c"] },
           { start: 98, themeIds: ["magolor"] },
         ],
       },
       {
+        id: "Dangerous Dinner",
         videoId: "sQsGBOlRKNM",
         title: "Dangerous Dinner",
         sections: [
@@ -135,6 +142,7 @@ export const games: Game[] = [
         duration: 31.9,
       },
       {
+        id: "Fly, Kirby!",
         videoId: "vNFs58zdW_4",
         title: "Fly, Kirby!",
         sections: [
@@ -148,6 +156,7 @@ export const games: Game[] = [
         duration: 79,
       },
       {
+        id: "Limitless Power",
         videoId: "irOwhfBpnFU",
         title: "Limitless Power",
         sections: [
@@ -159,6 +168,7 @@ export const games: Game[] = [
         duration: 63.3,
       },
       {
+        id: "Road to Victory",
         videoId: "U5Jm-diYDCw",
         title: "Road to Victory",
         sections: [
@@ -175,6 +185,7 @@ export const games: Game[] = [
     title: "Kirby's Adventure",
     tracks: [
       {
+        id: "Final Battle 2",
         videoId: "dNZDnZQ7lWg",
         title: "Final Battle 2",
         sections: [{ start: 7, themeIds: ["nightmare"] }],

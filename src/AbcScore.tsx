@@ -1,16 +1,16 @@
 import abcjs from "abcjs";
 import { useEffect, useRef } from "react";
 
-const AbcScore = ({ abc, width, height }: { abc: string; width?: number; height?: number }) => {
+const AbcScore = ({ abc }: { abc: string }) => {
   const abcContainerRef = useRef(null);
 
   useEffect(() => {
     if (abcContainerRef.current) {
-      abcjs.renderAbc(abcContainerRef.current, abc, { responsive: "resize" });
+      abcjs.renderAbc(abcContainerRef.current, abc);
     }
   }, [abc]);
 
-  return <div style={{ width: width, height: height }} ref={abcContainerRef}></div>;
+  return <div ref={abcContainerRef}></div>;
 };
 
 export default AbcScore;
