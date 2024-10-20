@@ -48,7 +48,7 @@ function App() {
     <Container fluid>
       <Card body style={rootCardStyle}>
         <h2 style={{ textAlign: "center" }}>
-          {currentGame.title} &gt; {currentTrack.title}&nbsp;
+          {currentGame.title} › {currentTrack.title}&nbsp;
           <Button onClick={() => update()} size="sm">
             Open another track
           </Button>
