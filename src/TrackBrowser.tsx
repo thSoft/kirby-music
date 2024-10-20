@@ -3,7 +3,7 @@ import { Badge, Card, Col, Nav, Row, Stack } from "react-bootstrap";
 import { Game, games, Track } from "./data";
 import { SectionsView } from "./SectionsView";
 import { TooltipWrapper } from "./TooltipWrapper";
-import { getAllTracksWithGame, sum, usePlayingInfo } from "./utils";
+import { getAllTracksWithGame, rootCardStyle, sum, usePlayingInfo } from "./utils";
 
 export function TrackBrowser({ showOnlyRelated = false }: { showOnlyRelated?: boolean }) {
   const { currentTrackId, currentThemeId } = usePlayingInfo();
@@ -12,7 +12,7 @@ export function TrackBrowser({ showOnlyRelated = false }: { showOnlyRelated?: bo
       ? games.filter((game) => countRelatedTracksInGame(game, currentTrackId, currentThemeId) > 0)
       : games;
   return (
-    <Card body>
+    <Card body style={rootCardStyle}>
       <Row>
         <h3 style={{ textAlign: "center" }}>
           {showOnlyRelated ? "Other tracks containing the current theme" : "All tracks"}

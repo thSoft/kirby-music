@@ -6,7 +6,7 @@ import { KeyView } from "./KeyView";
 import { SectionsView } from "./SectionsView";
 import { ThemeScore } from "./ThemeScore";
 import { TrackBrowser } from "./TrackBrowser";
-import { getAllTracksWithGame, getSectionIndex, usePlayingInfo } from "./utils";
+import { getAllTracksWithGame, getSectionIndex, rootCardStyle, usePlayingInfo } from "./utils";
 import YouTubeVideo from "./YouTubeVideo";
 
 function App() {
@@ -46,7 +46,7 @@ function App() {
 
   return (
     <Container fluid>
-      <Card body>
+      <Card body style={rootCardStyle}>
         <h2 style={{ textAlign: "center" }}>
           {currentGame.title} &gt; {currentTrack.title}&nbsp;
           <Button onClick={() => update()} size="sm">

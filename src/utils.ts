@@ -50,3 +50,7 @@ export function usePlayingInfo() {
 function entry(key: string, value: any) {
   return value !== undefined ? { [key]: value } : {};
 }
+
+export const rootCardStyle: React.CSSProperties = {
+  marginTop: 8,
+};

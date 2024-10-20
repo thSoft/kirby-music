@@ -8,7 +8,7 @@ export function ThemeScore() {
   const style = { height: 130 };
   if (!theme) return <div style={style}></div>;
   return (
-    <TooltipWrapper tooltip="The current theme's original form notated in C major/A minor" placement="bottom-start">
+    <TooltipWrapper tooltip="The current theme's original form notated in C major/A minor" placement="bottom">
       <div style={style}>
         <AbcScore abc={theme.score || ""} />
       </div>
