@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { Button, Card, Col, Container, Stack } from "react-bootstrap";
 import { Options } from "youtube-player/dist/types";
-import { games, KeyChange, Track } from "./data";
+import { KeyChange, Track } from "./data";
 import { KeyView } from "./KeyView";
 import { SectionsView } from "./SectionsView";
 import { ThemeScore } from "./ThemeScore";
 import { TrackBrowser } from "./TrackBrowser";
-import { getSectionIndex, playingInfoWidth, usePlayingInfo } from "./utils";
+import { getAllTracksWithGame, getSectionIndex, playingInfoWidth, usePlayingInfo } from "./utils";
 import YouTubeVideo from "./YouTubeVideo";
 
 function App() {
@@ -70,9 +70,7 @@ function getCurrentKeyChange(currentTrack: Track, currentTime: number) {
 }
 
 function getCurrentGameAndTrack(trackId: string | undefined) {
-  return games
-    .flatMap((game) => game.tracks.map((track) => ({ game, track })))
-    .find(({ track }) => track.id === trackId);
+  return getAllTracksWithGame().find(({ track }) => track.id === trackId);
 }
 
 export default App;

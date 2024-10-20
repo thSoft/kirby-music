@@ -1,5 +1,9 @@
 import { useSearchParams } from "react-router-dom";
-import { themes, Track } from "./data";
+import { games, themes, Track } from "./data";
+
+export function getAllTracksWithGame() {
+  return games.flatMap((game) => game.tracks.map((track) => ({ game, track })));
+}
 
 export function getSectionIndex(track: Track, currentTime: number) {
   return track.sections.findIndex(

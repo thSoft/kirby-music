@@ -34,7 +34,7 @@ export const themes: Theme[] = [
   { id: "hero", title: "Hero", score: "c3 G/2c/2 g2 G2 | c3 G/2c/2 g G3 |" },
   { id: "magolor", title: "Magolor", score: "g2 g2 g>a gf | e>f ed c2 G2 | " },
   { id: "magolor b", title: "Magolor B", score: "A3 B/2c/2 edcB | A3 B/2c/2 dBGB | " },
-  { id: "anticipation", title: "Anticipation" },
+  { id: "anticipation", title: "Anticipation", score: "[C2- E2 G2] [C2- F2 A2] [C2- G2 B2] [C2 F2 A2]" },
   { id: "flight", title: "Flight" },
   { id: "triumph", title: "Triumph" },
   { id: "triumph b", title: "Return", score: "z2 G>G c2 ce | fc'af e2 d2 |" },
