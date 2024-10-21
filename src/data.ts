@@ -19,6 +19,7 @@ export type Track = {
   sections: Section[];
   keyChanges?: KeyChange[];
   duration?: number;
+  url?: string;
 };
 
 export type Game = {
@@ -63,6 +64,7 @@ export const games: Game[] = [
         ],
         keyChanges: [{ start: 0, key: { tonic: "F", mode: "major" } }],
         duration: 42.5,
+        url: "https://wikirby.com/wiki/Four_Adventurers:_Cookie_Country",
       },
       {
         id: "The Adventure Begins",

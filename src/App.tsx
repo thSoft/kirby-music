@@ -47,12 +47,17 @@ function App() {
   return (
     <Container fluid>
       <Card body style={rootCardStyle}>
-        <h2 style={{ textAlign: "center" }}>
-          {currentGame.title} › {currentTrack.title}&nbsp;
-          <Button onClick={() => update()} size="sm">
-            Open another track
-          </Button>
-        </h2>
+        <Stack direction="horizontal" style={{ alignItems: "start" }}>
+          <Button onClick={() => update()}>Change track</Button>
+          <h2 style={{ textAlign: "center", flexGrow: 1 }}>
+            {currentGame.title} › {currentTrack.title}&nbsp;
+          </h2>
+          {currentTrack.url && (
+            <Button onClick={() => window.open(currentTrack.url, "_blank")} variant="secondary">
+              More info
+            </Button>
+          )}
+        </Stack>
         <Stack direction="horizontal" gap={1}>
           <YouTubeVideo
             videoId={currentTrack?.videoId || ""}
