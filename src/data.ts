@@ -14,8 +14,8 @@ export type KeyChange = { start: number; key: KeySignature };
 
 export type Track = {
   id: string;
-  videoId: string;
   title: string;
+  videoId: string;
   sections: Section[];
   keyChanges?: KeyChange[];
   duration?: number;
@@ -37,8 +37,8 @@ export const themes: Theme[] = [
   { id: "magolor b", title: "Magolor B", score: "A3 B/2c/2 edcB | A3 B/2c/2 dBGB | " },
   { id: "anticipation", title: "Anticipation", score: "[C8- E8 G8] | [C8- F8 A8] | [C8- G8 B8] | [C8 F8 A8] |" },
   { id: "flight", title: "Flight", score: "A/2B/2 | c6 z B/2c/2 | d>c B4" },
-  { id: "triumph", title: "Triumph" },
-  { id: "triumph b", title: "Return", score: "z2 G>G c2 ce | fc'af e2 d2 |" },
+  { id: "triumph", title: "Triumph", score: "a3 g/2f/2 edcd | e2 d>e A2 A2 | B6 B>^c | B6 " },
+  { id: "return", title: "Return", score: "G>G | c6 ce | fc'af e2 d2 |" },
   { id: "star", title: "Star" },
   { id: "sky", title: "Sky" },
   { id: "halcandra", title: "Halcandra" },
@@ -46,7 +46,7 @@ export const themes: Theme[] = [
   { id: "halcandra c", title: "Halcandra C" },
   { id: "crown", title: "Crown", score: "AE BE c/2B/2 z |" },
   { id: "nightmare", title: "Nightmare", score: "z/2 g/2g/2g/2 g/2g/2g/2g/2 g/2^f/2e/2d/2 e/2A/2c/2d/2 | B8 |" },
-  { id: "kirby", title: "Kirby", score: "G>G | c4 z2 c>e | gc'ba g2 e>g | f2 d>e d2 e>d | c6" },
+  { id: "kirby", title: "Kirby", score: "G>G | c6 c>e | gc'ba g2 e>g | f2 d>e d2 e>d | c6" },
   { id: "kirby b", title: "Kirby B", score: "A>B | c2 B>c d2 c>d | e2 d>e A2" },
   {
     id: "ominous",
@@ -62,8 +62,8 @@ export const games: Game[] = [
     tracks: [
       {
         id: "Green Greens",
-        videoId: "twPSaCABakA",
         title: "Green Greens",
+        videoId: "twPSaCABakA",
         sections: [
           { start: 6.5, themeIds: ["kirby"] },
           { start: 21, themeIds: ["kirby b"] },
@@ -72,7 +72,8 @@ export const games: Game[] = [
           { start: 0, key: { tonic: "c", mode: "major" } },
           { start: 21, key: { tonic: "eb", mode: "major" } },
         ],
-        duration: 50,
+        duration: 32,
+        url: "https://wikirby.com/wiki/Green_Greens_(theme)",
       },
     ],
   },
@@ -81,11 +82,32 @@ export const games: Game[] = [
     title: "Kirby's Adventure",
     tracks: [
       {
-        id: "Final Battle 2",
+        id: "Final Boss",
+        title: "Final Boss",
         videoId: "dNZDnZQ7lWg",
-        title: "Final Battle 2",
         sections: [{ start: 7, themeIds: ["nightmare"] }],
         keyChanges: [{ start: 0, key: { tonic: "g#", mode: "minor" } }],
+        duration: 32.6,
+        url: "https://wikirby.com/wiki/Final_Boss_(theme_from_Kirby%27s_Adventure)",
+      },
+    ],
+  },
+  {
+    id: "Kirby Super Star",
+    title: "Kirby Super Star",
+    tracks: [
+      {
+        id: "Kirby's Triumphant Return",
+        title: "Kirby's Triumphant Return",
+        videoId: "VclEVQA0_O8",
+        sections: [
+          { start: 0, themeIds: ["triumph"] },
+          { start: 7, themeIds: ["return"] },
+        ],
+        keyChanges: [
+          { start: 0, key: { tonic: "c", mode: "minor" } },
+          { start: 7, key: { tonic: "c", mode: "major" } },
+        ],
         duration: 32.6,
       },
     ],
@@ -96,8 +118,8 @@ export const games: Game[] = [
     tracks: [
       {
         id: "Four Adventurers: Cookie Country",
-        videoId: "g_lQuWbLxn0",
         title: "Four Adventurers: Cookie Country",
+        videoId: "g_lQuWbLxn0",
         sections: [
           { start: 2.9, themeIds: ["anticipation"] },
           { start: 8.5, themeIds: ["hero"] },
@@ -109,22 +131,22 @@ export const games: Game[] = [
       },
       {
         id: "The Adventure Begins",
-        videoId: "pwe4B0Z0aW8",
         title: "The Adventure Begins",
+        videoId: "pwe4B0Z0aW8",
         sections: [
           { start: 2.9, themeIds: ["adventure"] },
           { start: 20.7, themeIds: ["hero"] },
           { start: 32.4, themeIds: ["hero"] },
           { start: 36.7, themeIds: ["adventure"] },
-          { start: 38.2, themeIds: ["triumph b"] },
+          { start: 38.2, themeIds: ["return"] },
         ],
         keyChanges: [{ start: 0, key: { tonic: "F", mode: "major" } }],
         duration: 48.7,
       },
       {
         id: "Magolor, the Far-Flung Traveler",
-        videoId: "4EITf3jgfKw",
         title: "Magolor, the Far-Flung Traveler",
+        videoId: "4EITf3jgfKw",
         sections: [
           { start: 0.6, themeIds: ["magolor"] },
           { start: 13.5, themeIds: ["magolor b"] },
@@ -139,8 +161,8 @@ export const games: Game[] = [
       },
       {
         id: "Sky Tower",
-        videoId: "vRS-Fjnv_UM",
         title: "Sky Tower",
+        videoId: "vRS-Fjnv_UM",
         sections: [
           { start: 0, themeIds: ["star"] },
           { start: 6, themeIds: ["sky"] },
@@ -151,18 +173,18 @@ export const games: Game[] = [
       },
       {
         id: "The Lor Starcutter Reborn",
-        videoId: "y_G9sQgc7kk",
         title: "The Lor Starcutter Reborn",
+        videoId: "y_G9sQgc7kk",
         sections: [
           { start: 0, themeIds: ["anticipation"] },
-          { start: 5.8, themeIds: ["magolor"] },
+          { start: 5.7, themeIds: ["magolor"] },
         ],
         keyChanges: [{ start: 0, key: { tonic: "F", mode: "major" } }],
       },
       {
         id: "Halcandra: A New Enemy",
-        videoId: "oclpDTlnXeM",
         title: "Halcandra: A New Enemy",
+        videoId: "oclpDTlnXeM",
         sections: [
           { start: 5.9, themeIds: ["halcandra"] },
           { start: 28.8, themeIds: ["halcandra b"] },
@@ -174,8 +196,8 @@ export const games: Game[] = [
       },
       {
         id: "Dangerous Dinner",
-        videoId: "sQsGBOlRKNM",
         title: "Dangerous Dinner",
+        videoId: "sQsGBOlRKNM",
         sections: [
           { start: 0, themeIds: ["anticipation"] },
           { start: 5.3, themeIds: ["hero"] },
@@ -186,8 +208,8 @@ export const games: Game[] = [
       },
       {
         id: "Fly, Kirby!",
-        videoId: "vNFs58zdW_4",
         title: "Fly, Kirby!",
+        videoId: "vNFs58zdW_4",
         sections: [
           { start: 5.8, themeIds: ["flight"] },
           { start: 28.2, themeIds: ["flight"] },
@@ -200,8 +222,8 @@ export const games: Game[] = [
       },
       {
         id: "Limitless Power",
-        videoId: "irOwhfBpnFU",
         title: "Limitless Power",
+        videoId: "irOwhfBpnFU",
         sections: [
           { start: 0.8, themeIds: ["crown"] },
           { start: 23.4, themeIds: ["hero"] },
@@ -212,8 +234,8 @@ export const games: Game[] = [
       },
       {
         id: "Road to Victory",
-        videoId: "U5Jm-diYDCw",
         title: "Road to Victory",
+        videoId: "U5Jm-diYDCw",
         sections: [
           { start: 3.2, themeIds: ["road"] },
           { start: 28.7, themeIds: ["victory"] },
@@ -223,8 +245,8 @@ export const games: Game[] = [
       },
       {
         id: "Supreme Ruler's Coronation - OVERLORD",
-        videoId: "YytAAZCKzps",
         title: "Supreme Ruler's Coronation - OVERLORD",
+        videoId: "YytAAZCKzps",
         sections: [
           { start: 0, themeIds: ["magolor b"] },
           { start: 11.8, themeIds: ["anticipation"] },
@@ -246,7 +268,7 @@ export const games: Game[] = [
           { start: 154.2, themeIds: ["victory", "magolor"] },
           { start: 166.5, themeIds: ["kirby", "road"] },
           { start: 173.1, themeIds: ["triumph", "nightmare"] },
-          { start: 186, themeIds: ["ominous"] },
+          { start: 186, themeIds: ["ominous", "hero"] },
         ],
         keyChanges: [
           { start: 0, key: { tonic: "f", mode: "minor" } },
@@ -254,7 +276,20 @@ export const games: Game[] = [
           { start: 90.7, key: { tonic: "f", mode: "minor" } },
           { start: 157.2, key: { tonic: "g#", mode: "minor" } },
         ],
-        duration: 201.4,
+        duration: 201.5,
+      },
+    ],
+  },
+  {
+    id: "Kirby Star Allies",
+    title: "Kirby Star Allies",
+    tracks: [
+      {
+        id: "Suite: The Star Conquering Traveler",
+        title: "Suite: The Star Conquering Traveler",
+        videoId: "y5l3Zz58264",
+        sections: [{ start: 16.5, themeIds: ["ominous"] }],
+        keyChanges: [{ start: 0, key: { tonic: "c", mode: "minor" } }],
       },
     ],
   },
