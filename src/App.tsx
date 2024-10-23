@@ -27,8 +27,8 @@ function App() {
     if (!currentTrack) return;
     const newSectionIndex = getSectionIndex(currentTrack, currentTime);
     if (currentSectionIndex !== newSectionIndex) {
-      const currentSection = currentTrack.sections[newSectionIndex];
-      update(currentTrackId, newSectionIndex, start, currentSection ? currentSection.themeIds[0] : undefined);
+      const newSection = currentTrack.sections[newSectionIndex];
+      update(currentTrackId, newSectionIndex, start, newSection ? newSection.themeIds[0] : undefined);
     }
 
     setCurrentKeyChange(getCurrentKeyChange(currentTrack, currentTime));

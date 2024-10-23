@@ -27,7 +27,7 @@ export function usePlayingInfo() {
   const START = "start";
   const THEME_ID = "themeId";
   const currentTrackId = searchParams.get(TRACK_ID) || undefined;
-  const currentSectionIndex = parseInt(searchParams.get(SECTION_INDEX) || "0");
+  const currentSectionIndex = parseInt(searchParams.get(SECTION_INDEX) || "-1");
   const start = parseFloat(searchParams.get(START) || "0");
   const currentThemeId = searchParams.get(THEME_ID) || undefined;
   const update = (trackId?: string, sectionIndex?: number, start?: number, themeId?: string) =>

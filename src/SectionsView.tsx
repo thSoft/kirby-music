@@ -44,14 +44,19 @@ function ThemeOccurrence({
   sectionIndex: number;
   track: Track;
 }) {
-  const { currentTrackId, currentThemeId, currentSectionIndex, update } = usePlayingInfo();
+  const { currentTrackId, currentThemeId, currentSectionIndex, start, update } = usePlayingInfo();
   if (!track) return;
   const theme = getTheme(themeId);
   if (!theme) return;
   const isSameTheme = currentThemeId == themeId;
   const isCurrentThemeOccurrence = currentTrackId == track.id && currentSectionIndex == sectionIndex && isSameTheme;
   const onClick = function () {
-    update(track.id, getSectionIndex(track, section.start), section.start, themeId);
+    update(
+      track.id,
+      getSectionIndex(track, section.start),
+      sectionIndex == currentSectionIndex ? start : section.start,
+      themeId
+    );
   };
   const themeIndex = themes.indexOf(theme);
   const backgroundColor = colors[themeIndex].hex();
