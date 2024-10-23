@@ -76,7 +76,7 @@ function ThemeOccurrence({
           cursor: "pointer",
           borderWidth: "3px",
           borderStyle: isCurrentThemeOccurrence ? "solid" : isSameTheme ? "dashed" : "solid",
-          borderColor: isCurrentThemeOccurrence ? "#FFFF8F" : isSameTheme ? "lightgray" : backgroundColor,
+          borderColor: isCurrentThemeOccurrence ? "#FFFF8F" : isSameTheme ? foregroundColor : backgroundColor,
           boxShadow: isCurrentThemeOccurrence ? "0px 0px 6px black" : isSameTheme ? "0px 0px 4px gray" : undefined,
         }}
         onClick={onClick}

@@ -89,19 +89,24 @@ function GameDetails({ game, showOnlyRelated }: { game: Game; showOnlyRelated: b
         <a id={game.id} />
         {game.title}
       </h4>
-      <Stack gap={1}>
+      <Nav style={{ gap: "0.5em" }}>
         {visibleTracks.map((track) => (
           <TrackView track={track} key={track.id} />
         ))}
-      </Stack>
+      </Nav>
     </div>
   );
 }
 
 function TrackView({ track }: { track: Track }) {
+  const { update } = usePlayingInfo();
   return (
     <Card body>
-      <Card.Title style={{ margin: 1 }}>{track.title}</Card.Title>
+      <Card.Title style={{ margin: 1 }}>
+        <Nav.Link style={{ textAlign: "center" }} onClick={() => update(track.id)}>
+          {track.title}
+        </Nav.Link>
+      </Card.Title>
       <SectionsView track={track} />
     </Card>
   );

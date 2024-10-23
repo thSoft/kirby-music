@@ -65,7 +65,7 @@ function App() {
             opts={opts}
             style={{ display: "inline-flex", borderRadius: "5px", overflow: "hidden" }}
           />
-          <Card>
+          <Card style={{ width: "100%" }}>
             <Card.Header>
               <SectionsView track={currentTrack} />
             </Card.Header>
