@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, Card, Container, Stack } from "react-bootstrap";
+import { useKey } from "react-use";
 import { Options } from "youtube-player/dist/types";
 import { KeyChange, Track } from "./data";
 import { KeyView } from "./KeyView";
@@ -68,6 +69,7 @@ function App() {
           <Card style={{ width: "100%" }}>
             <Card.Header>
               <SectionsView track={currentTrack} />
+              <KeyboardHandler currentTrack={currentTrack} />
             </Card.Header>
             <Card.Body>
               <ThemeScore />
@@ -92,6 +94,39 @@ function getCurrentKeyChange(currentTrack: Track, currentTime: number) {
 
 function getCurrentGameAndTrack(trackId: string | undefined) {
   return getAllTracksWithGame().find(({ track }) => track.id === trackId);
+}
+
+function KeyboardHandler({ currentTrack }: { currentTrack: Track }) {
+  const { currentTrackId, currentSectionIndex, currentThemeId, start, update } = usePlayingInfo();
+  const currentSection = currentTrack.sections[currentSectionIndex];
+  const currentThemeOccurrenceIndex = currentThemeId ? currentSection.themeIds.indexOf(currentThemeId) : undefined;
+
+  function moveSectionBy(delta: number) {
+    const newSectionIndex = currentSectionIndex + delta;
+    if (newSectionIndex >= 0 && newSectionIndex < currentTrack.sections.length) {
+      const newSection = currentTrack.sections[newSectionIndex];
+      update(currentTrackId, newSectionIndex, newSection.start, newSection.themeIds[0]);
+    }
+  }
+
+  function moveThemeOccurrenceBy(delta: number) {
+    if (currentThemeOccurrenceIndex === undefined) return;
+    const newThemeOccurrenceIndex = currentThemeOccurrenceIndex + delta;
+    if (newThemeOccurrenceIndex >= 0 && newThemeOccurrenceIndex < currentSection.themeIds.length) {
+      const newThemeId = currentSection.themeIds[newThemeOccurrenceIndex];
+      update(currentTrackId, currentSectionIndex, start, newThemeId);
+    }
+  }
+
+  const sectionDeps = [currentTrack, currentSectionIndex];
+  useKey("ArrowLeft", () => moveSectionBy(-1), undefined, sectionDeps);
+  useKey("ArrowRight", () => moveSectionBy(+1), undefined, sectionDeps);
+
+  const themeDeps = [currentSection, currentThemeOccurrenceIndex];
+  useKey("ArrowUp", () => moveThemeOccurrenceBy(-1), undefined, themeDeps);
+  useKey("ArrowDown", () => moveThemeOccurrenceBy(+1), undefined, themeDeps);
+
+  return null;
 }
 
 export default App;
