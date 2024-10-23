@@ -26,7 +26,7 @@ function YouTubeVideo({
     async () => {
       if (player) {
         const time = await player.getCurrentTime();
-        if (end && time >= end) {
+        if (end !== undefined && time >= end) {
           player.pauseVideo();
         } else {
           if (onTimeChanged && time) onTimeChanged(time);

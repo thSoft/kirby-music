@@ -66,7 +66,7 @@ function App() {
             opts={opts}
             style={{ display: "inline-flex", borderRadius: "5px", overflow: "hidden" }}
           />
-          <Card style={{ width: "100%" }}>
+          <Card style={{ width: `calc(100% - ${videoWidth}px)` }}>
             <Card.Header>
               <SectionsView track={currentTrack} />
               <KeyboardHandler currentTrack={currentTrack} />
