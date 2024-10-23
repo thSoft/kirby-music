@@ -13,10 +13,13 @@ export function KeyView({ keySignature: keySignature }: { keySignature: KeySigna
 
 function KeyText({ keySignature }: { keySignature: KeySignature }) {
   const alt = Key.majorKey(Mode.relativeTonic("major", keySignature.mode, keySignature.tonic)).alteration;
-  const alterationText = `(${Math.abs(alt)}${alt > 0 ? "♯" : "♭"})`;
+  const sharp = "♯";
+  const flat = "♭";
+  const alterationText = `(${Math.abs(alt)}${alt > 0 ? sharp : flat})`;
   return (
     <span>
-      {keySignature.tonic} <span style={{ color: modeColors[keySignature.mode] }}>{keySignature.mode}</span>{" "}
+      {keySignature.tonic.replace("#", sharp).replace("b", flat).toUpperCase()}{" "}
+      <span style={{ color: modeColors[keySignature.mode] }}>{keySignature.mode}</span>{" "}
       <span style={{ color: alterationColors[alt + 7] }}>{alt != 0 ? alterationText : ""}</span>
     </span>
   );

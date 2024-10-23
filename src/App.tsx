@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Col, Container, Stack } from "react-bootstrap";
+import { Button, Card, Container, Stack } from "react-bootstrap";
 import { Options } from "youtube-player/dist/types";
 import { KeyChange, Track } from "./data";
 import { KeyView } from "./KeyView";
@@ -65,19 +65,17 @@ function App() {
             opts={opts}
             style={{ display: "inline-flex", borderRadius: "5px", overflow: "hidden" }}
           />
-          <Col>
-            <Card>
-              <Card.Header>
-                <SectionsView track={currentTrack} />
-              </Card.Header>
-              <Card.Body>
-                <ThemeScore />
-              </Card.Body>
-              <Card.Footer>
-                <KeyView keySignature={currentKeyChange?.key} />
-              </Card.Footer>
-            </Card>
-          </Col>
+          <Card>
+            <Card.Header>
+              <SectionsView track={currentTrack} />
+            </Card.Header>
+            <Card.Body>
+              <ThemeScore />
+            </Card.Body>
+            <Card.Footer>
+              <KeyView keySignature={currentKeyChange?.key} />
+            </Card.Footer>
+          </Card>
         </Stack>
       </Card>
       {currentThemeId && <TrackBrowser showOnlyRelated />}

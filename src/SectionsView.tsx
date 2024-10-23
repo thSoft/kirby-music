@@ -7,7 +7,7 @@ import { getSectionIndex, getTheme, usePlayingInfo } from "./utils";
 
 export function SectionsView({ track }: { track: Track }) {
   return (
-    <Stack direction="horizontal">
+    <Stack direction="horizontal" style={{ alignItems: "start", flexWrap: "wrap", rowGap: 8 }}>
       {track.sections.map((section, sectionIndex) => (
         <SectionView section={section} sectionIndex={sectionIndex} track={track} key={sectionIndex} />
       ))}
