@@ -1,0 +1,1 @@
+pnpm run build && surge dist kirby-music.surge.sh
