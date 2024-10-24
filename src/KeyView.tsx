@@ -36,19 +36,19 @@ const modeColors: { [mode: string]: string } = {
 };
 
 const alterationColors = [
-  "#ffaa00", // Brighter Orange
-  "#e69900",
-  "#cc8800",
-  "#b37700",
-  "#996600",
-  "#805500",
-  "#664400",
-  "#4d3300", // Middle Brown
-  "#3a2b44",
-  "#2e2a63",
-  "#232982",
-  "#1827a1",
-  "#0d25c0",
-  "#0922e0",
   "#051ffb", // Darker Blue
+  "#0922e0",
+  "#0d25c0",
+  "#1827a1",
+  "#232982",
+  "#2e2a63",
+  "#3a2b44",
+  "#4d3300", // Middle Brown
+  "#664400",
+  "#805500",
+  "#996600",
+  "#b37700",
+  "#cc8800",
+  "#e69900",
+  "#ffaa00", // Brighter Orange
 ];
