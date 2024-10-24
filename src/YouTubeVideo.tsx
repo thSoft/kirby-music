@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useKey } from "react-use";
 import YouTube, { YouTubePlayer } from "react-youtube";
 import { useInterval } from "usehooks-ts";
 import { Options } from "youtube-player/dist/types";
@@ -46,6 +47,22 @@ function YouTubeVideo({
       previousStart.current = start;
     }
   }, [videoId, opts]);
+
+  // Global keyboard handler
+  useKey(
+    " ",
+    async () => {
+      if (player) {
+        if ((await player.getPlayerState()) == YouTube.PlayerState.PLAYING) {
+          player.pauseVideo();
+        } else {
+          player.playVideo();
+        }
+      }
+    },
+    undefined,
+    [player]
+  );
 
   return (
     <YouTube
