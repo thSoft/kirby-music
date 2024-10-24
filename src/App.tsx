@@ -101,7 +101,10 @@ function KeyboardHandler({ currentTrack }: { currentTrack: Track }) {
   const currentSection = currentTrack.sections[currentSectionIndex];
   const currentThemeOccurrenceIndex = currentThemeId ? currentSection.themeIds.indexOf(currentThemeId) : undefined;
 
-  function moveSectionBy(delta: number) {
+  function moveSectionBy(delta: number, event: KeyboardEvent) {
+    if (hasModifier(event)) {
+      return;
+    }
     const newSectionIndex = currentSectionIndex + delta;
     if (newSectionIndex >= 0 && newSectionIndex < currentTrack.sections.length) {
       const newSection = currentTrack.sections[newSectionIndex];
@@ -109,7 +112,10 @@ function KeyboardHandler({ currentTrack }: { currentTrack: Track }) {
     }
   }
 
-  function moveThemeOccurrenceBy(delta: number) {
+  function moveThemeOccurrenceBy(delta: number, event: KeyboardEvent) {
+    if (hasModifier(event)) {
+      return;
+    }
     if (currentThemeOccurrenceIndex === undefined) return;
     const newThemeOccurrenceIndex = currentThemeOccurrenceIndex + delta;
     if (newThemeOccurrenceIndex >= 0 && newThemeOccurrenceIndex < currentSection.themeIds.length) {
@@ -119,14 +125,18 @@ function KeyboardHandler({ currentTrack }: { currentTrack: Track }) {
   }
 
   const sectionDeps = [currentTrack, currentSectionIndex];
-  useKey("ArrowLeft", () => moveSectionBy(-1), undefined, sectionDeps);
-  useKey("ArrowRight", () => moveSectionBy(+1), undefined, sectionDeps);
+  useKey("ArrowLeft", (event) => moveSectionBy(-1, event), undefined, sectionDeps);
+  useKey("ArrowRight", (event) => moveSectionBy(+1, event), undefined, sectionDeps);
 
   const themeDeps = [currentSection, currentThemeOccurrenceIndex];
-  useKey("ArrowUp", () => moveThemeOccurrenceBy(-1), undefined, themeDeps);
-  useKey("ArrowDown", () => moveThemeOccurrenceBy(+1), undefined, themeDeps);
+  useKey("ArrowUp", (event) => moveThemeOccurrenceBy(-1, event), undefined, themeDeps);
+  useKey("ArrowDown", (event) => moveThemeOccurrenceBy(+1, event), undefined, themeDeps);
 
   return null;
+}
+
+function hasModifier(event: KeyboardEvent) {
+  return event.ctrlKey || event.shiftKey || event.altKey || event.metaKey;
 }
 
 export default App;
