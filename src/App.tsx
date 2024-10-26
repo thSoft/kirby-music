@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Card, Container, Stack } from "react-bootstrap";
+import { Button, Card, Stack } from "react-bootstrap";
 import { useKey } from "react-use";
 import { Options } from "youtube-player/dist/types";
 import { KeyChange, Track } from "./data";
@@ -16,11 +16,7 @@ function App() {
 
   const currentGameAndTrack = getCurrentGameAndTrack(currentTrackId);
   if (!currentGameAndTrack) {
-    return (
-      <Container fluid>
-        <TrackBrowser />
-      </Container>
-    );
+    return <TrackBrowser />;
   }
   const { game: currentGame, track: currentTrack } = currentGameAndTrack;
 
@@ -46,7 +42,7 @@ function App() {
   };
 
   return (
-    <Container fluid>
+    <>
       <Card body style={rootCardStyle}>
         <Stack direction="horizontal" style={{ alignItems: "start" }}>
           <Button onClick={() => update()}>Change track</Button>
@@ -81,7 +77,7 @@ function App() {
         </Stack>
       </Card>
       {currentThemeId && <TrackBrowser showOnlyRelated />}
-    </Container>
+    </>
   );
 }
 
