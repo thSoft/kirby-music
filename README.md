@@ -1,11 +1,15 @@
 # Setup
 
-`pnpm install`
+- `./setup.sh`
+- Open the folder in Visual Studio Code
 
 # Develop
 
-`pnpm run dev`
+Run the following launch targets:
 
-# Build
+- _Run development server_
+- _Open in browser_
 
-`pnpm run build`
+# Deploy
+
+`pnpm run deploy`
