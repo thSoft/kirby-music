@@ -22,14 +22,19 @@ function App() {
   return (
     <>
       <Card body style={rootCardStyle}>
-        <Stack direction="horizontal" style={{ alignItems: "start" }}>
+        <Stack direction="horizontal" style={{ alignItems: "start" }} gap={1}>
           <Button onClick={() => update()}>Change track</Button>
           <h2 style={{ textAlign: "center", flexGrow: 1 }}>
             {currentGame.title} › {currentTrack.title}&nbsp;
           </h2>
           {currentTrack.url && (
-            <Button onClick={() => window.open(currentTrack.url, "_blank")} variant="secondary">
+            <Button href={currentTrack.url} target="_blank" variant="secondary">
               More info
+            </Button>
+          )}
+          {currentTrack.scoreUrl && (
+            <Button href={currentTrack.scoreUrl} target="_blank" variant="outline-secondary">
+              Score
             </Button>
           )}
         </Stack>

@@ -20,6 +20,7 @@ export type Track = {
   keyChanges?: KeyChange[];
   duration?: number;
   url?: string;
+  scoreUrl?: string;
 };
 
 export type Game = {
@@ -42,8 +43,8 @@ export const themes: Theme[] = [
   { id: "star", title: "Star", score: "DGc EAd Fc|e Gdg ecAE |" },
   { id: "sky", title: "Sky", score: "cF/2G/2 c4 G/2c/2f/2g/2 | c'f/2g/2 c'6 |" },
   { id: "halcandra", title: "Halcandra", score: "A6 c2 | B6 G2 | A6 c2 | B6 z2 | G6 B2 | A3 E3 C2 | G8 |" },
-  { id: "halcandra b", title: "Halcandra B", score: "g4 c4 | f4 z4 | e7 d/2c/2 | d4 z4 |" },
-  { id: "halcandra c", title: "Halcandra C", score: "g3 ^f/2g/2 a4 |" },
+  { id: "halcandra b", title: "Halcandra B", score: "g6 c2 | f4 z4 | e7 d/2c/2 | d4 z4 |" },
+  { id: "halcandra c", title: "Halcandra C", score: "g3 ^f/2g/2 a4 | z2 e^fg ^fdcB | A4" },
   { id: "crown", title: "Crown", score: "AE BE c/2B/2 z |" },
   { id: "nightmare", title: "Nightmare", score: "z/2 g/2g/2g/2 g/2g/2g/2g/2 g/2^f/2e/2d/2 e/2A/2c/2d/2 | B8 |" },
   { id: "kirby", title: "Kirby", score: "G>G | c6 c>e | gc'ba g2 e>g | f2 d>e d2 e>d | c6" },
@@ -121,6 +122,37 @@ export const games: Game[] = [
     title: "Kirby's Return to Dream Land (Deluxe)",
     tracks: [
       {
+        id: "A Visitor from Afar",
+        title: "A Visitor from Afar",
+        videoId: "Aqt2X1hM690",
+        sections: [
+          { start: 1.1, themeIds: ["road"] },
+          { start: 7.9, themeIds: ["anticipation"] },
+          { start: 14.7, themeIds: ["magolor"] },
+          { start: 31.5, themeIds: ["road"] },
+          { start: 37.9, themeIds: ["ominous"] },
+          { start: 50.9, themeIds: ["kirby"] },
+          { start: 54, themeIds: ["hero"] },
+          { start: 66.2, themeIds: ["halcandra c"] },
+          { start: 99.2, themeIds: ["magolor"] },
+          { start: 105.6, themeIds: ["victory"] },
+          { start: 117, themeIds: ["magolor"] },
+        ],
+        keyChanges: [
+          { start: 0, key: { tonic: "f", mode: "major" } },
+          { start: 34.8, key: { tonic: "ab", mode: "major" } },
+          { start: 37.8, key: { tonic: "c", mode: "minor" } },
+          { start: 63, key: { tonic: "f", mode: "lydian" } },
+          { start: 81.1, key: { tonic: "g", mode: "mixolydian" } },
+          { start: 92.7, key: { tonic: "d", mode: "dorian" } },
+          { start: 105.6, key: { tonic: "d", mode: "minor" } },
+          { start: 113.8, key: { tonic: "c", mode: "major" } },
+        ],
+        duration: 152.1,
+        url: "https://wikirby.com/wiki/A_Visitor_from_Afar",
+        scoreUrl: "https://musescore.com/user/39251409/scores/10618660",
+      },
+      {
         id: "Four Adventurers: Cookie Country",
         title: "Four Adventurers: Cookie Country",
         videoId: "g_lQuWbLxn0",
@@ -192,15 +224,17 @@ export const games: Game[] = [
       {
         id: "Halcandra: A New Enemy",
         title: "Halcandra: A New Enemy",
-        videoId: "oclpDTlnXeM",
+        videoId: "pwFTKiq9LdA",
         sections: [
-          { start: 5.9, themeIds: ["halcandra"] },
-          { start: 28.8, themeIds: ["halcandra b"] },
-          { start: 40, themeIds: ["adventure"] },
-          { start: 42.9, themeIds: ["magolor"] },
-          { start: 76.2, themeIds: ["halcandra c"] },
-          { start: 98.2, themeIds: ["magolor"] },
+          { start: 6.4, themeIds: ["halcandra"] },
+          { start: 29.4, themeIds: ["halcandra b"] },
+          { start: 40.6, themeIds: ["adventure"] },
+          { start: 43.5, themeIds: ["magolor"] },
+          { start: 76.8, themeIds: ["halcandra c"] },
+          { start: 98.8, themeIds: ["magolor"] },
         ],
+        duration: 119,
+        scoreUrl: "https://musescore.com/user/27682311/scores/9669628",
       },
       {
         id: "Dangerous Dinner",
